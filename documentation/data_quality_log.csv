@@ -1,0 +1,111 @@
+table,column,issue,count,pct_of_rows,example_bad_value,planned_fix,status
+cities,average_income,null or blank,2,8.00%,,Load as NULL; impute in Week 2 if needed,found
+customer_feedback,customer_rating,null or blank,294,2.07%,,Load as NULL; impute in Week 2 if needed,found
+customer_feedback,review,null or blank,1058,7.45%,,Load as NULL; impute in Week 2 if needed,found
+customer_feedback,sentiment,category audit (3 distinct values),3,0.02%,Positive | Negative | Neutral,Use exact spellings in all SQL queries and dashboards,found
+customers,name,extra whitespace,236,1.94%,' Charles Natt  ',TRIM() while loading to production,fixed in SQL
+customers,age,null or blank,170,1.40%,,Load as NULL; impute in Week 2 if needed,found
+customers,gender,null or blank,122,1.00%,,Load as NULL; impute in Week 2 if needed,found
+customers,phone,null or blank,144,1.18%,,Load as NULL; impute in Week 2 if needed,found
+customers,email,null or blank,332,2.73%,,Load as NULL; impute in Week 2 if needed,found
+customers,city,extra whitespace,345,2.83%,' Hyderabad  ',TRIM() while loading to production,fixed in SQL
+customers,state,null or blank,186,1.53%,,Load as NULL; impute in Week 2 if needed,found
+customers,membership,null or blank,120,0.99%,,Load as NULL; impute in Week 2 if needed,found
+customers,preferred_cuisine,null or blank,245,2.01%,,Load as NULL; impute in Week 2 if needed,found
+customers,(all columns),duplicate full rows,180,1.48%,,ROW_NUMBER() OVER (PARTITION BY pk) = 1 keeps first; log in cleaning,fixed in SQL
+customers,customer_id,duplicate primary key,180,1.48%,22,Keep row with fewest NULLs; discard others; log count,fixed in SQL
+customers,registration_date,date format: DD-MM-YYYY,2021,16.59%,18-02-2024,parse_mixed_date() / parse_ddmmyyyy() while loading to production; verify MIN/MAX span ~24 months,fixed in SQL
+customers,registration_date,date format: MM/DD/YYYY or DD/MM/YYYY,4034,33.12%,05/17/2023,parse_mixed_date() / parse_ddmmyyyy() while loading to production; verify MIN/MAX span ~24 months,fixed in SQL
+customers,registration_date,date format: YYYY.MM.DD,2052,16.85%,2022.05.16,parse_mixed_date() / parse_ddmmyyyy() while loading to production; verify MIN/MAX span ~24 months,fixed in SQL
+customers,registration_date,date format: YYYY-MM-DD,2030,16.67%,2022-06-11,parse_mixed_date() / parse_ddmmyyyy() while loading to production; verify MIN/MAX span ~24 months,fixed in SQL
+customers,registration_date,date format: DD Mon YYYY,2043,16.77%,28 Feb 2024,parse_mixed_date() / parse_ddmmyyyy() while loading to production; verify MIN/MAX span ~24 months,fixed in SQL
+customers,city,non-canonical city name,904,7.42%,"AHMEDABAD, BANGALORE, BENGALURU, BHOPAL, BHUBANESWAR",Map via city_aliases table during staging→production load,fixed in SQL
+customers,phone,invalid Indian mobile number (not 10 digits / wrong prefix),7451,61.17%,1960013389,Log only in Week 1; null out or fix in Week 2 Python,found
+customers,pincode,invalid pincode (not exactly 6 digits),398,3.27%,85529X,Log only in Week 1; null out or fix in Week 2 Python,found
+customers,membership,category audit (3 distinct values),3,0.02%,Basic | Zomato Pro | Gold,Use exact spellings in all SQL queries and dashboards,found
+customers,gender,category audit (3 distinct values),3,0.02%,Female | Other | Male,Use exact spellings in all SQL queries and dashboards,found
+delivery_partners,name,extra whitespace,31,1.55%,' Dalaja Yogi  ',TRIM() while loading to production,fixed in SQL
+delivery_partners,city,extra whitespace,53,2.65%,' Nagpur  ',TRIM() while loading to production,fixed in SQL
+delivery_partners,rating,null or blank,34,1.70%,,Load as NULL; impute in Week 2 if needed,found
+delivery_partners,joining_date,date format: DD-MM-YYYY,327,16.35%,25-08-2021,parse_mixed_date() / parse_ddmmyyyy() while loading to production; verify MIN/MAX span ~24 months,fixed in SQL
+delivery_partners,joining_date,date format: MM/DD/YYYY or DD/MM/YYYY,657,32.85%,22/10/2024,parse_mixed_date() / parse_ddmmyyyy() while loading to production; verify MIN/MAX span ~24 months,fixed in SQL
+delivery_partners,joining_date,date format: YYYY.MM.DD,346,17.30%,2022.11.13,parse_mixed_date() / parse_ddmmyyyy() while loading to production; verify MIN/MAX span ~24 months,fixed in SQL
+delivery_partners,joining_date,date format: YYYY-MM-DD,329,16.45%,2023-10-23,parse_mixed_date() / parse_ddmmyyyy() while loading to production; verify MIN/MAX span ~24 months,fixed in SQL
+delivery_partners,joining_date,date format: DD Mon YYYY,341,17.05%,19 Jul 2021,parse_mixed_date() / parse_ddmmyyyy() while loading to production; verify MIN/MAX span ~24 months,fixed in SQL
+delivery_partners,city,non-canonical city name,128,6.40%,"AHMEDABAD, BANGALORE, BENGALURU, BHUBANESWAR, Bangalore",Map via city_aliases table during staging→production load,fixed in SQL
+delivery_partners,average_delivery_time,negative value,27,1.35%,-35.7,Keep and study; exclude via view in business queries; fix in Week 2,found
+delivery_partners,average_delivery_time,potential outlier (> p99=55 min),19,0.95%,p50=32 p75=38 p90=44 p99=55 max=64,Log only; decide cap threshold after EDA in Week 2,found
+delivery_partners,vehicle_type,category audit (4 distinct values),4,0.20%,Bike | Scooter | Bicycle | Car,Use exact spellings in all SQL queries and dashboards,found
+delivery_partners,gender,category audit (2 distinct values),2,0.10%,Male | Female,Use exact spellings in all SQL queries and dashboards,found
+menu,food_name,extra whitespace,155,1.72%,' Cold Coffee  ',TRIM() while loading to production,fixed in SQL
+menu,calories,null or blank,132,1.47%,,Load as NULL; impute in Week 2 if needed,found
+menu,price,negative value,90,1.00%,-274,Keep and study; exclude via view in business queries; fix in Week 2,found
+menu,availability,category audit (2 distinct values),2,0.02%,Yes | No,Use exact spellings in all SQL queries and dashboards,found
+order_items,total_price,null or blank,435,1.03%,,Load as NULL; impute in Week 2 if needed,found
+order_items,quantity,negative value,417,0.98%,-2,Keep and study; exclude via view in business queries; fix in Week 2,found
+orders,coupon_code,null or blank,13421,64.82%,,Load as NULL; impute in Week 2 if needed,found
+orders,final_amount,null or blank,327,1.58%,,Load as NULL; impute in Week 2 if needed,found
+orders,(all columns),duplicate full rows,205,0.99%,,ROW_NUMBER() OVER (PARTITION BY pk) = 1 keeps first; log in cleaning,fixed in SQL
+orders,order_id,duplicate primary key,205,0.99%,100146,Keep row with fewest NULLs; discard others; log count,fixed in SQL
+orders,order_date,date format: DD-MM-YYYY,4187,20.22%,22-06-2024,parse_mixed_date() / parse_ddmmyyyy() while loading to production; verify MIN/MAX span ~24 months,fixed in SQL
+orders,order_date,date format: MM/DD/YYYY or DD/MM/YYYY,8218,39.69%,17/03/2024,parse_mixed_date() / parse_ddmmyyyy() while loading to production; verify MIN/MAX span ~24 months,fixed in SQL
+orders,order_date,date format: YYYY.MM.DD,4191,20.24%,2023.06.17,parse_mixed_date() / parse_ddmmyyyy() while loading to production; verify MIN/MAX span ~24 months,fixed in SQL
+orders,order_date,date format: YYYY-MM-DD,4109,19.85%,2023-05-09,parse_mixed_date() / parse_ddmmyyyy() while loading to production; verify MIN/MAX span ~24 months,fixed in SQL
+orders,delivery_time_minutes,negative value,209,1.01%,-41,Keep and study; exclude via view in business queries; fix in Week 2,found
+orders,food_cost,negative value,182,0.88%,-292,Keep and study; exclude via view in business queries; fix in Week 2,found
+orders,delivery_fee,zero value,3429,16.56%,0,Keep and study; flag in business queries; decide fix in Week 2,found
+orders,discount,zero value,13421,64.82%,0,Keep and study; flag in business queries; decide fix in Week 2,found
+orders,delivery_time_minutes,potential outlier (> p99=89 min),207,1.00%,p50=35 p75=43 p90=55 p99=89 max=399,Log only; decide cap threshold after EDA in Week 2,found
+orders,order_status,category audit (4 distinct values),4,0.02%,Delivered | Cancelled | Food Not Delivered | Delivered Late,Use exact spellings in all SQL queries and dashboards,found
+orders,payment_method,category audit (6 distinct values),6,0.03%,Debit Card | Net Banking | Cash on Delivery | UPI | Credit Card,Use exact spellings in all SQL queries and dashboards,found
+payments,transaction_id,null or blank,183,0.89%,,Load as NULL; impute in Week 2 if needed,found
+payments,payment_date,date format: DD-MM-YYYY,4169,20.34%,23-01-2023,parse_mixed_date() / parse_ddmmyyyy() while loading to production; verify MIN/MAX span ~24 months,fixed in SQL
+payments,payment_date,date format: MM/DD/YYYY or DD/MM/YYYY,8163,39.83%,01/01/2023,parse_mixed_date() / parse_ddmmyyyy() while loading to production; verify MIN/MAX span ~24 months,fixed in SQL
+payments,payment_date,date format: YYYY.MM.DD,4136,20.18%,2023.12.06,parse_mixed_date() / parse_ddmmyyyy() while loading to production; verify MIN/MAX span ~24 months,fixed in SQL
+payments,payment_date,date format: YYYY-MM-DD,4025,19.64%,2023-01-24,parse_mixed_date() / parse_ddmmyyyy() while loading to production; verify MIN/MAX span ~24 months,fixed in SQL
+payments,payment_method,category audit (6 distinct values),6,0.03%,Debit Card | Net Banking | Cash on Delivery | UPI | Credit Card,Use exact spellings in all SQL queries and dashboards,found
+payments,payment_status,category audit (4 distinct values),4,0.02%,Success | Failed | Refunded | Pending,Use exact spellings in all SQL queries and dashboards,found
+promotions,start_date,date format: DD-MM-YYYY,61,20.33%,12-11-2023,parse_mixed_date() / parse_ddmmyyyy() while loading to production; verify MIN/MAX span ~24 months,fixed in SQL
+promotions,start_date,date format: MM/DD/YYYY or DD/MM/YYYY,117,39.00%,06/28/2023,parse_mixed_date() / parse_ddmmyyyy() while loading to production; verify MIN/MAX span ~24 months,fixed in SQL
+promotions,start_date,date format: YYYY.MM.DD,59,19.67%,2024.03.26,parse_mixed_date() / parse_ddmmyyyy() while loading to production; verify MIN/MAX span ~24 months,fixed in SQL
+promotions,start_date,date format: YYYY-MM-DD,63,21.00%,2024-02-13,parse_mixed_date() / parse_ddmmyyyy() while loading to production; verify MIN/MAX span ~24 months,fixed in SQL
+promotions,end_date,date format: DD-MM-YYYY,61,20.33%,06-12-2023,parse_mixed_date() / parse_ddmmyyyy() while loading to production; verify MIN/MAX span ~24 months,fixed in SQL
+promotions,end_date,date format: MM/DD/YYYY or DD/MM/YYYY,118,39.33%,07/31/2023,parse_mixed_date() / parse_ddmmyyyy() while loading to production; verify MIN/MAX span ~24 months,fixed in SQL
+promotions,end_date,date format: YYYY.MM.DD,51,17.00%,2024.05.09,parse_mixed_date() / parse_ddmmyyyy() while loading to production; verify MIN/MAX span ~24 months,fixed in SQL
+promotions,end_date,date format: YYYY-MM-DD,70,23.33%,2024-02-09,parse_mixed_date() / parse_ddmmyyyy() while loading to production; verify MIN/MAX span ~24 months,fixed in SQL
+restaurants,restaurant_name,extra whitespace,17,1.42%,' Golden Hub  ',TRIM() while loading to production,fixed in SQL
+restaurants,cuisine,null or blank,12,1.00%,,Load as NULL; impute in Week 2 if needed,found
+restaurants,city,extra whitespace,37,3.08%,' Patna  ',TRIM() while loading to production,fixed in SQL
+restaurants,rating,null or blank,22,1.83%,,Load as NULL; impute in Week 2 if needed,found
+restaurants,city,non-canonical city name,83,6.92%,"AHMEDABAD, BANGALORE, BENGALURU, BHUBANESWAR, Bangalore",Map via city_aliases table during staging→production load,fixed in SQL
+restaurants,average_cost,negative value,15,1.25%,-355,Keep and study; exclude via view in business queries; fix in Week 2,found
+restaurants,restaurant_type,category audit (5 distinct values),5,0.42%,Cloud Kitchen | Dine-in | Delivery Only | QSR | Dine-in & Delivery,Use exact spellings in all SQL queries and dashboards,found
+restaurants,cuisine,category audit (19 distinct values),19,1.58%,South Indian | Fast Food | Healthy Food | Street Food | Desserts,Use exact spellings in all SQL queries and dashboards,found
+traffic,traffic_level,null or blank,147,0.80%,,Load as NULL; impute in Week 2 if needed,found
+traffic,date,date format: DD-MM-YYYY,3664,19.98%,18-11-2023,parse_mixed_date() / parse_ddmmyyyy() while loading to production; verify MIN/MAX span ~24 months,fixed in SQL
+traffic,date,date format: MM/DD/YYYY or DD/MM/YYYY,7240,39.49%,01/09/2023,parse_mixed_date() / parse_ddmmyyyy() while loading to production; verify MIN/MAX span ~24 months,fixed in SQL
+traffic,date,date format: YYYY.MM.DD,3793,20.69%,2023.01.07,parse_mixed_date() / parse_ddmmyyyy() while loading to production; verify MIN/MAX span ~24 months,fixed in SQL
+traffic,date,date format: YYYY-MM-DD,3638,19.84%,2024-12-29,parse_mixed_date() / parse_ddmmyyyy() while loading to production; verify MIN/MAX span ~24 months,fixed in SQL
+traffic,traffic_level,category audit (4 distinct values),4,0.02%,Moderate | High | Low | Severe,Use exact spellings in all SQL queries and dashboards,found
+weather,city,null or blank,91,0.50%,,Load as NULL; impute in Week 2 if needed,found
+weather,rainfall,null or blank,269,1.47%,,Load as NULL; impute in Week 2 if needed,found
+weather,date,date format: DD-MM-YYYY,3674,20.12%,19-08-2024,parse_mixed_date() / parse_ddmmyyyy() while loading to production; verify MIN/MAX span ~24 months,fixed in SQL
+weather,date,date format: MM/DD/YYYY or DD/MM/YYYY,7337,40.17%,12/28/2024,parse_mixed_date() / parse_ddmmyyyy() while loading to production; verify MIN/MAX span ~24 months,fixed in SQL
+weather,date,date format: YYYY.MM.DD,3645,19.96%,2024.08.30,parse_mixed_date() / parse_ddmmyyyy() while loading to production; verify MIN/MAX span ~24 months,fixed in SQL
+weather,date,date format: YYYY-MM-DD,3608,19.75%,2023-08-24,parse_mixed_date() / parse_ddmmyyyy() while loading to production; verify MIN/MAX span ~24 months,fixed in SQL
+weather,weather_condition,category audit (6 distinct values),6,0.03%,Clear | Cloudy | Humid | Rainy | Foggy,Use exact spellings in all SQL queries and dashboards,found
+orders,customer_id,orphaned FK → staging.customers(customer_id),12,0.06%,12254,Move orphan rows to quarantine table during staging→production load,found
+orders,restaurant_id,orphaned FK → staging.restaurants(restaurant_id),13,0.06%,1317,Move orphan rows to quarantine table during staging→production load,found
+orders,delivery_partner_id,orphaned FK → staging.delivery_partners(delivery_partner_id),0,0.00%,,No action needed — all FKs resolve,found
+orders,coupon_code,orphaned FK → staging.promotions(coupon_code),0,0.00%,,No action needed — all FKs resolve,found
+order_items,order_id,orphaned FK → staging.orders(order_id),0,0.00%,,No action needed — all FKs resolve,found
+order_items,food_item_id,orphaned FK → staging.menu(food_item_id),0,0.00%,,No action needed — all FKs resolve,found
+payments,order_id,orphaned FK → staging.orders(order_id),0,0.00%,,No action needed — all FKs resolve,found
+customer_feedback,order_id,orphaned FK → staging.orders(order_id),0,0.00%,,No action needed — all FKs resolve,found
+menu,restaurant_id,orphaned FK → staging.restaurants(restaurant_id),0,0.00%,,No action needed — all FKs resolve,found
+customer_feedback,delivery_rating,rating out of range (>5),129,0.91%,9,Cap at 5 or null out in Week 2,found
+restaurants,rating,rating out of range (>5),18,1.50%,9.8,Cap at 5 or null out in Week 2,found
+order_items,total_price,qty * unit_price != total_price (rounding/data error),411,0.98%,,Investigate and fix in Week 2,found
+payments,order_id,non-cancelled orders with no payment record,305,1.49%,,Investigate in Week 2; use payment_status filter,found
+payments,order_id,order has more than one payment row (likely retry),393,1.92%,,Use payment_status='Success' filter in all payment queries,found
+weather,date,NULL date (date parse failed for some rows),2247,12.37%,NULL,Always filter WHERE date IS NOT NULL in weather joins; fix in Week 2,found
