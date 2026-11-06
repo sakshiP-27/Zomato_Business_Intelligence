@@ -1,0 +1,230 @@
+<svg viewBox="0 0 1400 980" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, Arial, sans-serif" font-size="12">
+
+  <!-- Background -->
+  <rect width="1400" height="980" fill="#f8f9fa"/>
+
+  <!-- ARROW MARKERS -->
+  <defs>
+    <marker id="fkarrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M0,0 L6,4 L0,8" fill="#888" stroke="none"/>
+    </marker>
+  </defs>
+
+  <!-- RELATIONSHIP LINES -->
+  <!-- cities → customers -->
+  <line x1="340" y1="200" x2="340" y2="295" stroke="#aaa" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#fkarrow)"/>
+  <!-- cities → restaurants -->
+  <line x1="350" y1="200" x2="680" y2="295" stroke="#aaa" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#fkarrow)"/>
+  <!-- cities → delivery_partners -->
+  <line x1="330" y1="200" x2="80" y2="295" stroke="#aaa" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#fkarrow)"/>
+  <!-- cities → weather -->
+  <line x1="300" y1="200" x2="170" y2="665" stroke="#aaa" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#fkarrow)"/>
+  <!-- cities → traffic -->
+  <line x1="360" y1="200" x2="420" y2="665" stroke="#aaa" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#fkarrow)"/>
+  <!-- restaurants → menu -->
+  <line x1="780" y1="430" x2="960" y2="490" stroke="#aaa" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#fkarrow)"/>
+  <!-- customers → orders -->
+  <line x1="340" y1="490" x2="560" y2="580" stroke="#aaa" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#fkarrow)"/>
+  <!-- restaurants → orders -->
+  <line x1="700" y1="430" x2="650" y2="580" stroke="#aaa" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#fkarrow)"/>
+  <!-- delivery_partners → orders -->
+  <line x1="160" y1="480" x2="560" y2="610" stroke="#aaa" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#fkarrow)"/>
+  <!-- promotions → orders -->
+  <line x1="1030" y1="295" x2="760" y2="580" stroke="#aaa" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#fkarrow)"/>
+  <!-- orders → order_items -->
+  <line x1="660" y1="720" x2="980" y2="770" stroke="#aaa" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#fkarrow)"/>
+  <!-- menu → order_items -->
+  <line x1="1020" y1="640" x2="1020" y2="730" stroke="#aaa" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#fkarrow)"/>
+  <!-- orders → payments -->
+  <line x1="640" y1="720" x2="640" y2="800" stroke="#aaa" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#fkarrow)"/>
+  <!-- orders → customer_feedback -->
+  <line x1="580" y1="720" x2="320" y2="800" stroke="#aaa" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#fkarrow)"/>
+
+  <!-- CITIES -->
+  <rect x="240" y="80" width="220" height="120" rx="6" fill="#fff" stroke="#4a90d9" stroke-width="2"/>
+  <rect x="240" y="80" width="220" height="28" rx="6" fill="#4a90d9"/>
+  <rect x="240" y="96" width="220" height="12" fill="#4a90d9"/>
+  <text x="350" y="100" text-anchor="middle" fill="white" font-weight="bold" font-size="13">cities</text>
+  <text x="255" y="126" fill="#c00" font-weight="bold">PK city_id  INT</text>
+  <text x="255" y="143" fill="#333">  city  VARCHAR(60)  UNIQUE NN</text>
+  <text x="255" y="158" fill="#777">  population  BIGINT</text>
+  <text x="255" y="173" fill="#777">  region, average_income</text>
+
+  <!-- CUSTOMERS -->
+  <rect x="210" y="295" width="250" height="195" rx="6" fill="#fff" stroke="#e67e22" stroke-width="2"/>
+  <rect x="210" y="295" width="250" height="28" rx="6" fill="#e67e22"/>
+  <rect x="210" y="311" width="250" height="12" fill="#e67e22"/>
+  <text x="335" y="315" text-anchor="middle" fill="white" font-weight="bold" font-size="13">customers</text>
+  <text x="225" y="341" fill="#c00" font-weight="bold">PK customer_id  INT</text>
+  <text x="225" y="358" fill="#333">  name  VARCHAR(100)</text>
+  <text x="225" y="375" fill="#333">  age, gender</text>
+  <text x="225" y="392" fill="#333">  phone  VARCHAR(20)</text>
+  <text x="225" y="409" fill="#333">  email  VARCHAR(120)</text>
+  <text x="225" y="426" fill="#e67e22" font-weight="bold">FK city → cities(city)</text>
+  <text x="225" y="443" fill="#777">  state, pincode, registration_date</text>
+  <text x="225" y="460" fill="#777">  membership, total_orders, preferred_cuisine</text>
+
+  <!-- RESTAURANTS -->
+  <rect x="590" y="295" width="250" height="135" rx="6" fill="#fff" stroke="#e67e22" stroke-width="2"/>
+  <rect x="590" y="295" width="250" height="28" rx="6" fill="#e67e22"/>
+  <rect x="590" y="311" width="250" height="12" fill="#e67e22"/>
+  <text x="715" y="315" text-anchor="middle" fill="white" font-weight="bold" font-size="13">restaurants</text>
+  <text x="605" y="341" fill="#c00" font-weight="bold">PK restaurant_id  INT</text>
+  <text x="605" y="358" fill="#333">  restaurant_name, cuisine</text>
+  <text x="605" y="375" fill="#e67e22" font-weight="bold">FK city → cities(city)</text>
+  <text x="605" y="392" fill="#333">  area, opening_time, closing_time</text>
+  <text x="605" y="409" fill="#777">  rating, average_cost, owner_name</text>
+  <text x="605" y="426" fill="#777">  restaurant_type, latitude, longitude</text>
+
+  <!-- DELIVERY_PARTNERS -->
+  <rect x="20" y="295" width="230" height="185" rx="6" fill="#fff" stroke="#e67e22" stroke-width="2"/>
+  <rect x="20" y="295" width="230" height="28" rx="6" fill="#e67e22"/>
+  <rect x="20" y="311" width="230" height="12" fill="#e67e22"/>
+  <text x="135" y="315" text-anchor="middle" fill="white" font-weight="bold" font-size="13">delivery_partners</text>
+  <text x="35" y="341" fill="#c00" font-weight="bold">PK delivery_partner_id  INT</text>
+  <text x="35" y="358" fill="#333">  name, age, gender</text>
+  <text x="35" y="375" fill="#333">  vehicle_type  VARCHAR(30)</text>
+  <text x="35" y="392" fill="#333">  joining_date  DATE</text>
+  <text x="35" y="409" fill="#e67e22" font-weight="bold">FK city → cities(city)</text>
+  <text x="35" y="426" fill="#777">  rating  NUMERIC(2,1)</text>
+  <text x="35" y="443" fill="#777">  completed_deliveries  INT</text>
+  <text x="35" y="460" fill="#777">  average_delivery_time  NUMERIC(6,2)</text>
+
+  <!-- PROMOTIONS -->
+  <rect x="900" y="200" width="250" height="135" rx="6" fill="#fff" stroke="#9b59b6" stroke-width="2"/>
+  <rect x="900" y="200" width="250" height="28" rx="6" fill="#9b59b6"/>
+  <rect x="900" y="216" width="250" height="12" fill="#9b59b6"/>
+  <text x="1025" y="220" text-anchor="middle" fill="white" font-weight="bold" font-size="13">promotions</text>
+  <text x="915" y="246" fill="#c00" font-weight="bold">PK promotion_id  INT</text>
+  <text x="915" y="263" fill="#800080" font-weight="bold">UK coupon_code  VARCHAR(30)  UNIQUE</text>
+  <text x="915" y="280" fill="#333">  discount_percentage  SMALLINT</text>
+  <text x="915" y="297" fill="#777">  campaign_name  VARCHAR(100)</text>
+  <text x="915" y="314" fill="#777">  start_date, end_date  DATE</text>
+
+  <!-- MENU -->
+  <rect x="880" y="490" width="250" height="150" rx="6" fill="#fff" stroke="#27ae60" stroke-width="2"/>
+  <rect x="880" y="490" width="250" height="28" rx="6" fill="#27ae60"/>
+  <rect x="880" y="506" width="250" height="12" fill="#27ae60"/>
+  <text x="1005" y="510" text-anchor="middle" fill="white" font-weight="bold" font-size="13">menu</text>
+  <text x="895" y="536" fill="#c00" font-weight="bold">PK food_item_id  INT</text>
+  <text x="895" y="553" fill="#27ae60" font-weight="bold">FK restaurant_id → restaurants</text>
+  <text x="895" y="570" fill="#333">  food_name  VARCHAR(100)</text>
+  <text x="895" y="587" fill="#333">  category, price  NUMERIC(10,2)</text>
+  <text x="895" y="604" fill="#777">  preparation_time  SMALLINT</text>
+  <text x="895" y="621" fill="#777">  calories  SMALLINT</text>
+  <text x="895" y="638" fill="#777">  availability  VARCHAR(5)</text>
+
+  <!-- ORDERS -->
+  <rect x="490" y="580" width="290" height="240" rx="6" fill="#fff" stroke="#e74c3c" stroke-width="2.5"/>
+  <rect x="490" y="580" width="290" height="28" rx="6" fill="#e74c3c"/>
+  <rect x="490" y="596" width="290" height="12" fill="#e74c3c"/>
+  <text x="635" y="600" text-anchor="middle" fill="white" font-weight="bold" font-size="14">orders</text>
+  <text x="505" y="626" fill="#c00" font-weight="bold">PK order_id  INT</text>
+  <text x="505" y="643" fill="#e74c3c" font-weight="bold">FK customer_id → customers  NN</text>
+  <text x="505" y="660" fill="#e74c3c" font-weight="bold">FK restaurant_id → restaurants  NN</text>
+  <text x="505" y="677" fill="#e74c3c" font-weight="bold">FK delivery_partner_id → delivery_partners</text>
+  <text x="505" y="694" fill="#9b59b6" font-weight="bold">FK coupon_code → promotions(coupon_code)</text>
+  <text x="505" y="711" fill="#333">  order_date  DATE   order_time  TIME</text>
+  <text x="505" y="728" fill="#333">  delivery_time_minutes  NUMERIC(8,1)</text>
+  <text x="505" y="745" fill="#333">  food_cost, delivery_fee, discount, gst</text>
+  <text x="505" y="762" fill="#777">  final_amount  NUMERIC(10,2)</text>
+  <text x="505" y="779" fill="#777">  order_status, payment_method  VARCHAR(30)</text>
+  <text x="505" y="796" fill="#aaa" font-size="10">  No promised_time col — late threshold analyst-defined</text>
+
+  <!-- ORDER_ITEMS -->
+  <rect x="870" y="730" width="250" height="155" rx="6" fill="#fff" stroke="#27ae60" stroke-width="2"/>
+  <rect x="870" y="730" width="250" height="28" rx="6" fill="#27ae60"/>
+  <rect x="870" y="746" width="250" height="12" fill="#27ae60"/>
+  <text x="995" y="750" text-anchor="middle" fill="white" font-weight="bold" font-size="13">order_items</text>
+  <text x="885" y="776" fill="#c00" font-weight="bold">PK order_item_id  INT</text>
+  <text x="885" y="793" fill="#27ae60" font-weight="bold">FK order_id → orders  NN</text>
+  <text x="885" y="810" fill="#27ae60" font-weight="bold">FK food_item_id → menu  NN</text>
+  <text x="885" y="827" fill="#333">  quantity  SMALLINT</text>
+  <text x="885" y="844" fill="#333">  unit_price  NUMERIC(10,2)</text>
+  <text x="885" y="861" fill="#333">  total_price  NUMERIC(10,2)</text>
+
+  <!-- PAYMENTS -->
+  <rect x="490" y="800" width="250" height="145" rx="6" fill="#fff" stroke="#3498db" stroke-width="2"/>
+  <rect x="490" y="800" width="250" height="28" rx="6" fill="#3498db"/>
+  <rect x="490" y="816" width="250" height="12" fill="#3498db"/>
+  <text x="615" y="820" text-anchor="middle" fill="white" font-weight="bold" font-size="13">payments</text>
+  <text x="505" y="846" fill="#c00" font-weight="bold">PK payment_id  INT</text>
+  <text x="505" y="863" fill="#3498db" font-weight="bold">FK order_id → orders  NN</text>
+  <text x="505" y="880" fill="#333">  payment_method  VARCHAR(30)</text>
+  <text x="505" y="897" fill="#333">  payment_status  VARCHAR(20)</text>
+  <text x="505" y="914" fill="#777">  transaction_id  VARCHAR(30)</text>
+  <text x="505" y="931" fill="#777">  payment_date  DATE</text>
+
+  <!-- CUSTOMER_FEEDBACK -->
+  <rect x="100" y="800" width="255" height="150" rx="6" fill="#fff" stroke="#3498db" stroke-width="2"/>
+  <rect x="100" y="800" width="255" height="28" rx="6" fill="#3498db"/>
+  <rect x="100" y="816" width="255" height="12" fill="#3498db"/>
+  <text x="227" y="820" text-anchor="middle" fill="white" font-weight="bold" font-size="13">customer_feedback</text>
+  <text x="115" y="846" fill="#c00" font-weight="bold">PK feedback_id  INT</text>
+  <text x="115" y="863" fill="#3498db" font-weight="bold">FK order_id → orders  NN</text>
+  <text x="115" y="880" fill="#333">  customer_rating  SMALLINT (1-5)</text>
+  <text x="115" y="897" fill="#333">  delivery_rating, food_rating  SMALLINT</text>
+  <text x="115" y="914" fill="#777">  review  TEXT</text>
+  <text x="115" y="931" fill="#777">  sentiment  VARCHAR(20)</text>
+
+  <!-- WEATHER -->
+  <rect x="60" y="665" width="240" height="130" rx="6" fill="#fff" stroke="#16a085" stroke-width="2"/>
+  <rect x="60" y="665" width="240" height="28" rx="6" fill="#16a085"/>
+  <rect x="60" y="681" width="240" height="12" fill="#16a085"/>
+  <text x="180" y="685" text-anchor="middle" fill="white" font-weight="bold" font-size="13">weather</text>
+  <text x="75" y="711" fill="#c00" font-weight="bold">PK weather_id  INT</text>
+  <text x="75" y="728" fill="#16a085" font-weight="bold">FK city → cities(city)  NN</text>
+  <text x="75" y="745" fill="#333">  date  DATE</text>
+  <text x="75" y="762" fill="#333">  temperature, rainfall, humidity</text>
+  <text x="75" y="779" fill="#777">  weather_condition  VARCHAR(30)</text>
+
+  <!-- TRAFFIC -->
+  <rect x="330" y="665" width="240" height="130" rx="6" fill="#fff" stroke="#16a085" stroke-width="2"/>
+  <rect x="330" y="665" width="240" height="28" rx="6" fill="#16a085"/>
+  <rect x="330" y="681" width="240" height="12" fill="#16a085"/>
+  <text x="450" y="685" text-anchor="middle" fill="white" font-weight="bold" font-size="13">traffic</text>
+  <text x="345" y="711" fill="#c00" font-weight="bold">PK traffic_id  INT</text>
+  <text x="345" y="728" fill="#16a085" font-weight="bold">FK city → cities(city)  NN</text>
+  <text x="345" y="745" fill="#333">  date  DATE   time  TIME</text>
+  <text x="345" y="762" fill="#333">  traffic_level  VARCHAR(20)</text>
+  <text x="345" y="779" fill="#777">  average_speed  NUMERIC(5,2)</text>
+
+  <!-- LEGEND -->
+  <rect x="1120" y="80" width="250" height="210" rx="6" fill="#fff" stroke="#ccc" stroke-width="1.5"/>
+  <rect x="1120" y="80" width="250" height="28" rx="6" fill="#555"/>
+  <rect x="1120" y="96" width="250" height="12" fill="#555"/>
+  <text x="1245" y="100" text-anchor="middle" fill="white" font-weight="bold" font-size="13">Legend</text>
+  <text x="1135" y="128" fill="#c00" font-weight="bold">PK  Primary Key</text>
+  <text x="1135" y="148" fill="#800080" font-weight="bold">UK  Unique Key</text>
+  <line x1="1135" y1="162" x2="1175" y2="162" stroke="#aaa" stroke-width="1.5" stroke-dasharray="4,2"/>
+  <polygon points="1175,158 1183,162 1175,166" fill="#888"/>
+  <text x="1187" y="167" fill="#555">  Foreign Key (dashed)</text>
+  <rect x="1135" y="178" width="12" height="12" fill="#e74c3c" rx="2"/>
+  <text x="1153" y="189" fill="#555">  Fact / Core table</text>
+  <rect x="1135" y="196" width="12" height="12" fill="#e67e22" rx="2"/>
+  <text x="1153" y="207" fill="#555">  Dimension / Entity table</text>
+  <rect x="1135" y="214" width="12" height="12" fill="#27ae60" rx="2"/>
+  <text x="1153" y="225" fill="#555">  Item / Junction table</text>
+  <rect x="1135" y="232" width="12" height="12" fill="#3498db" rx="2"/>
+  <text x="1153" y="243" fill="#555">  Child / Event table</text>
+  <rect x="1135" y="250" width="12" height="12" fill="#16a085" rx="2"/>
+  <text x="1153" y="261" fill="#555">  Context / Lookup table</text>
+  <rect x="1135" y="268" width="12" height="12" fill="#9b59b6" rx="2"/>
+  <text x="1153" y="279" fill="#555">  Config / Reference table</text>
+
+  <!-- Design decision callout -->
+  <rect x="1120" y="320" width="250" height="145" rx="6" fill="#fffbea" stroke="#f1c40f" stroke-width="1.5"/>
+  <text x="1135" y="342" fill="#7d6608" font-weight="bold" font-size="12">Design Decision</text>
+  <text x="1135" y="362" fill="#555" font-size="11">cities.city_id is the PK but all</text>
+  <text x="1135" y="378" fill="#555" font-size="11">FKs point to cities.city (UNIQUE</text>
+  <text x="1135" y="394" fill="#555" font-size="11">NOT NULL). SQL requires FKs to</text>
+  <text x="1135" y="410" fill="#555" font-size="11">reference a unique column. This</text>
+  <text x="1135" y="426" fill="#555" font-size="11">avoids INT-vs-VARCHAR joins and</text>
+  <text x="1135" y="442" fill="#555" font-size="11">keeps queries readable.</text>
+  <text x="1135" y="458" fill="#555" font-size="11">city col also has a city_aliases</text>
+  <text x="1135" y="474" fill="#555" font-size="11">mapping for variant spellings.</text>
+
+  <!-- Title -->
+  <text x="700" y="50" text-anchor="middle" fill="#2c3e50" font-size="18" font-weight="bold">Zomato BI — Entity Relationship Diagram</text>
+  <text x="700" y="68" text-anchor="middle" fill="#7f8c8d" font-size="12">12 tables · PostgreSQL 14+ · snake_case column names in schema</text>
+</svg>
