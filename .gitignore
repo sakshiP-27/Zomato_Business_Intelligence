@@ -1,0 +1,57 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+.pytest_cache/
+
+# Virtual environments
+venv/
+.venv/
+env/
+.env
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# Environment / secrets
+.env
+.env.*
+*.env
+
+# Database connection strings (never commit passwords)
+db_config.py
+db_config.ini
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Data — raw CSVs are tracked; cleaned outputs are not
+data/cleaned/
+
+# Model artifacts (large files)
+models/*.pkl
+models/*.joblib
+models/*.h5
+
+# Reports / generated files
+reports/*.html
+reports/*.png
+reports/*.pdf
+
+# Power BI (binary, use Git LFS or track manually)
+powerbi/*.pbix
