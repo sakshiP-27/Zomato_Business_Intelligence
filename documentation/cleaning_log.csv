@@ -1,0 +1,29 @@
+table,step,rows_affected,note
+cities,average_income: null values,2,
+customers,age: impossible values -> NaN,429,outside 15-90 range
+customers,city standardized,904,
+customers,phone: repaired (stripped +91/0 prefix),133,
+customers,phone: invalid -> NaN,7529,
+customers,email: invalid -> NaN,332,
+customers,pincode: invalid -> NaN,404,
+customers,registration_date: unparseable -> NaT,1216,
+customers,drop duplicate customer_id,180,exact copies — keep first occurrence
+restaurants,city standardized,83,
+restaurants,rating: out of range (>5) -> NaN,18,
+restaurants,rating: filled with city median,40,
+delivery_partners,city standardized,128,
+delivery_partners,rating: filled with city median,34,
+delivery_partners,average_delivery_time: <=0 -> NaN,27,
+weather,drop blank city rows,91,no FK target — quarantined in Week 1 SQL too
+orders,food_cost: <=0 -> NaN,182,data quality issue — Week 1 integrity check confirmed
+orders,delivery_time_minutes: <=0 -> NaN,209,TARGET — not imputed; rows kept but excluded from model training
+orders,final_amount: null values,327,
+orders,drop duplicate order_id,205,exact copies — keep first occurrence
+orders,delivery_time_minutes: outlier flag (IQR k=3.0),211,"bounds=[-17.0, 88.0] — flagged not capped (target)"
+orders,delivery_time nulls mostly on non-delivered orders,208,"cancelled:44 — expected, not errors"
+customer_feedback,delivery_rating: out of range -> NaN,129,
+customer_feedback,has_review flag added,13142,
+orders,quarantine orphan orders,25,unknown customer/restaurant — saved to quarantine_orders.csv
+order_items,quarantine orphan order_id,17,parent order was quarantined — saved to quarantine_order_items.csv
+payments,quarantine orphan order_id,24,parent order was quarantined — saved to quarantine_payments.csv
+customer_feedback,quarantine orphan order_id,20,parent order was quarantined — saved to quarantine_customer_feedback.csv
