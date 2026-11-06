@@ -95,6 +95,52 @@ def print_section(msg: str) -> None:
 
 
 # ---------------------------------------------------------------------------
+# Week 2 — DataFrame loaders (load_raw / load_all)
+# Returns DataFrames (all columns as str) for the Python cleaning pipeline.
+# Separate from the staging DB loader above; both use the same to_snake().
+# ---------------------------------------------------------------------------
+
+TABLES = [
+    "cities", "customers", "restaurants", "menu",
+    "delivery_partners", "promotions", "orders",
+    "order_items", "payments", "customer_feedback",
+    "weather", "traffic",
+]
+
+
+def load_raw(table: str) -> pd.DataFrame:
+    """
+    Read one raw CSV as text (dtype=str), with snake_case column names.
+
+    Args:
+        table: Name of the CSV file without extension (e.g. 'orders').
+
+    Returns:
+        DataFrame with all columns as str and snake_case headers.
+
+    Raises:
+        FileNotFoundError: If the CSV file does not exist in data/raw/.
+    """
+    path = RAW_DIR / f"{table}.csv"
+    try:
+        df = pd.read_csv(path, dtype=str)
+    except FileNotFoundError as err:
+        raise FileNotFoundError(f"Raw file not found: {path}") from err
+    df.columns = [to_snake(c) for c in df.columns]
+    return df
+
+
+def load_all() -> dict:
+    """
+    Load all 12 raw CSVs into a dict of DataFrames.
+
+    Returns:
+        Dict mapping table name -> DataFrame (all columns as str).
+    """
+    return {t: load_raw(t) for t in TABLES}
+
+
+# ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
 
