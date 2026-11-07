@@ -209,7 +209,6 @@ def parse_mixed_dates(s: pd.Series) -> pd.Series:
 
     formats = {
         r"^\d{2}-\d{2}-\d{4}$":  "%d-%m-%Y",
-        r"^\d{2}/\d{2}/\d{4}$":  "%m/%d/%Y",
         r"^\d{4}\.\d{2}\.\d{2}$": "%Y.%m.%d",
         r"^\d{4}-\d{2}-\d{2}$":  "%Y-%m-%d",
         r"^\d{1,2} [A-Za-z]{3} \d{4}$": "%d %b %Y",
@@ -219,8 +218,14 @@ def parse_mixed_dates(s: pd.Series) -> pd.Series:
         mask = s.str.match(pattern, na=False)
         out.loc[mask] = pd.to_datetime(s[mask], format=fmt, errors="coerce")
 
-    return out
+    # '/' dates mix DD/MM and MM/DD in the raw files. A first part above 12 can only be
+    # a day, so read those as DD/MM; the rest default to MM/DD (ambiguous when both <= 12).
+    slash = s.str.match(r"^\d{2}/\d{2}/\d{4}$", na=False)
+    day_first = slash & (pd.to_numeric(s.str[:2], errors="coerce") > 12)
+    out.loc[day_first] = pd.to_datetime(s[day_first], format="%d/%m/%Y", errors="coerce")
+    out.loc[slash & ~day_first] = pd.to_datetime(s[slash & ~day_first], format="%m/%d/%Y", errors="coerce")
 
+    return out
 
 def parse_ddmmyyyy_dates(s: pd.Series) -> pd.Series:
     """
@@ -240,7 +245,6 @@ def parse_ddmmyyyy_dates(s: pd.Series) -> pd.Series:
 
     formats = {
         r"^\d{2}-\d{2}-\d{4}$":  "%d-%m-%Y",
-        r"^\d{2}/\d{2}/\d{4}$":  "%d/%m/%Y",       # day-first for customers/partners
         r"^\d{4}\.\d{2}\.\d{2}$": "%Y.%m.%d",
         r"^\d{4}-\d{2}-\d{2}$":  "%Y-%m-%d",
         r"^\d{1,2} [A-Za-z]{3} \d{4}$": "%d %b %Y",
@@ -250,8 +254,14 @@ def parse_ddmmyyyy_dates(s: pd.Series) -> pd.Series:
         mask = s.str.match(pattern, na=False)
         out.loc[mask] = pd.to_datetime(s[mask], format=fmt, errors="coerce")
 
-    return out
+    # '/' dates mix DD/MM and MM/DD. A second part above 12 can only be a day, so read
+    # those as MM/DD; the rest default to DD/MM for these tables.
+    slash = s.str.match(r"^\d{2}/\d{2}/\d{4}$", na=False)
+    month_first = slash & (pd.to_numeric(s.str[3:5], errors="coerce") > 12)
+    out.loc[month_first] = pd.to_datetime(s[month_first], format="%m/%d/%Y", errors="coerce")
+    out.loc[slash & ~month_first] = pd.to_datetime(s[slash & ~month_first], format="%d/%m/%Y", errors="coerce")
 
+    return out
 
 def clean_phone(s: pd.Series) -> pd.Series:
     """
@@ -793,7 +803,14 @@ class DataCleaner:
             df["delivery_partner_id"], self.log, "orders", "delivery_partner_id"
         ).astype("Int64")
 
-        # Date — orders use MM/DD/YYYY (month-first), not DD/MM/YYYY
+        # Date — "/" dates are disambiguated in parse_mixed_dates(); log the ambiguous ones
+        _s = df["order_date"].str.strip()
+        _sl = _s.str.match(r"^\d{2}/\d{2}/\d{4}$", na=False)
+        _amb = int((_sl & (pd.to_numeric(_s.str[:2], errors="coerce") <= 12)
+                    & (pd.to_numeric(_s.str[3:5], errors="coerce") <= 12)).sum())
+        if _amb:
+            self.log.add("orders", "order_date: ambiguous '/' date read as MM/DD", _amb,
+                         "both parts <= 12; day and month may be swapped")
         df["order_date"] = parse_mixed_dates(df["order_date"])
 
         # Time — keep as HH:MM string for CSV compatibility

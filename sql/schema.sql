@@ -117,8 +117,9 @@ BEGIN
     -- Strategy: use DD/MM/YYYY for customers & delivery_partners; MM/DD/YYYY elsewhere.
     -- The calling INSERT passes a second argument to signal which to use.
     ELSIF s ~ '^\d{2}/\d{2}/\d{4}$' THEN
-        -- Default to MM/DD/YYYY (orders, payments, weather, traffic)
-        RETURN TO_DATE(s, 'MM/DD/YYYY');
+        -- First part above 12 can only be a day -> DD/MM; otherwise MM/DD
+        RETURN CASE WHEN split_part(s, '/', 1)::INT > 12
+                    THEN TO_DATE(s, 'DD/MM/YYYY') ELSE TO_DATE(s, 'MM/DD/YYYY') END;
     -- DD Mon YYYY  (e.g. "28 Feb 2024") — only in customers & delivery_partners
     ELSIF s ~ '^\d{1,2} [A-Za-z]{3} \d{4}$' THEN
         RETURN TO_DATE(s, 'DD Mon YYYY');
@@ -144,7 +145,10 @@ BEGIN
     IF    s ~ '^\d{4}-\d{2}-\d{2}$'        THEN RETURN s::DATE;
     ELSIF s ~ '^\d{4}\.\d{2}\.\d{2}$'      THEN RETURN TO_DATE(s, 'YYYY.MM.DD');
     ELSIF s ~ '^\d{2}-\d{2}-\d{4}$'        THEN RETURN TO_DATE(s, 'DD-MM-YYYY');
-    ELSIF s ~ '^\d{2}/\d{2}/\d{4}$'        THEN RETURN TO_DATE(s, 'DD/MM/YYYY');
+    ELSIF s ~ '^\d{2}/\d{2}/\d{4}$'        THEN
+        -- Second part above 12 can only be a day -> MM/DD; otherwise DD/MM
+        RETURN CASE WHEN split_part(s, '/', 2)::INT > 12
+                    THEN TO_DATE(s, 'MM/DD/YYYY') ELSE TO_DATE(s, 'DD/MM/YYYY') END;
     ELSIF s ~ '^\d{1,2} [A-Za-z]{3} \d{4}$' THEN RETURN TO_DATE(s, 'DD Mon YYYY');
     ELSE RETURN NULL;
     END IF;
