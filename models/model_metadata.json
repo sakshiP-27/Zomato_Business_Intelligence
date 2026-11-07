@@ -1,0 +1,89 @@
+{
+  "delivery_model": {
+    "target": "delivery_time_minutes",
+    "model": "Random Forest",
+    "model_file": "delivery_time_best_model.pkl",
+    "sklearn_version": "1.9.1",
+    "trained_on": "2026-11-07",
+    "test_metrics": {
+      "MAE": 7.84,
+      "MSE": 95.532,
+      "RMSE": 9.774,
+      "R2": -0.0022
+    },
+    "kpi_r2_target": 0.75,
+    "kpi_rmse_target_min": 6.0,
+    "features": {
+      "numeric": [
+        "order_hour",
+        "order_dayofweek",
+        "peak_hour",
+        "weekend_order",
+        "n_items",
+        "avg_prep_time",
+        "max_prep_time",
+        "basket_value",
+        "discount_pct",
+        "coupon_used",
+        "restaurant_rating",
+        "restaurant_popularity_rank",
+        "partner_rating",
+        "delivery_efficiency",
+        "partner_avg_delivery_time",
+        "completed_deliveries",
+        "is_cross_city",
+        "customer_tenure_days",
+        "rainfall",
+        "temperature",
+        "humidity",
+        "traffic_score",
+        "is_peak_and_rain"
+      ],
+      "categorical": [
+        "restaurant_city",
+        "restaurant_cuisine",
+        "vehicle_type",
+        "weather_condition",
+        "membership",
+        "payment_method"
+      ]
+    }
+  },
+  "churn_model": {
+    "target": "churned",
+    "model": "Random Forest",
+    "model_file": "churn_best_model.pkl",
+    "cutoff_date": "2024-11-01",
+    "horizon_days": 60,
+    "churn_rate": 0.8739,
+    "churn_threshold": 0.42,
+    "naive_baseline_f1": 0.9326,
+    "test_metrics": {
+      "accuracy": 0.8737,
+      "precision": 0.8737,
+      "recall": 1.0,
+      "f1": 0.9326,
+      "roc_auc": 0.5207,
+      "pr_auc": 0.8746,
+      "threshold": 0.42
+    },
+    "kpi_f1_target": 0.7,
+    "sklearn_version": "1.9.1",
+    "trained_on": "2026-11-07",
+    "risk_bands": {
+      "Low": [
+        0.0,
+        0.72
+      ],
+      "Medium": [
+        0.72,
+        0.79
+      ],
+      "High": [
+        0.79,
+        1.0
+      ],
+      "method": "terciles of training out-of-fold probabilities"
+    }
+  }
+}
