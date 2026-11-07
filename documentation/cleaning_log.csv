@@ -6,7 +6,6 @@ customers,phone: repaired (stripped +91/0 prefix),133,
 customers,phone: invalid -> NaN,7529,
 customers,email: invalid -> NaN,332,
 customers,pincode: invalid -> NaN,404,
-customers,registration_date: unparseable -> NaT,1216,
 customers,drop duplicate customer_id,180,exact copies — keep first occurrence
 restaurants,city standardized,83,
 restaurants,rating: out of range (>5) -> NaN,18,
@@ -15,6 +14,7 @@ delivery_partners,city standardized,128,
 delivery_partners,rating: filled with city median,34,
 delivery_partners,average_delivery_time: <=0 -> NaN,27,
 weather,drop blank city rows,91,no FK target — quarantined in Week 1 SQL too
+orders,order_date: ambiguous '/' date read as MM/DD,3222,both parts <= 12; day and month may be swapped
 orders,food_cost: <=0 -> NaN,182,data quality issue — Week 1 integrity check confirmed
 orders,delivery_time_minutes: <=0 -> NaN,209,TARGET — not imputed; rows kept but excluded from model training
 orders,final_amount: null values,327,

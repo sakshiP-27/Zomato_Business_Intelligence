@@ -1,6 +1,6 @@
 # Integrity Checks Report — Step 7
 
-**Generated:** 2026-11-06 10:52:47  
+**Generated:** 2026-11-07 23:09:13  
 **Database:** production (public schema, Supabase)  
 **Reference date:** 2024-12-31 (= MAX(order_date) in orders)  
 
@@ -45,8 +45,8 @@
 | 6 | ratings:customer_feedback.food_rating | out_of_range (outside 1-5): 0  min=1  max=5 | ✅ PASS | Cap or null out-of-range ratings in Week 2 Python |
 | 6 | ratings:restaurants.rating | out_of_range (outside 1-5): 18  min=2.3  max=9.8 | ⚠️  FAIL | Cap or null out-of-range ratings in Week 2 Python |
 | 6 | ratings:delivery_partners.rating | out_of_range (outside 1-5): 0  min=2.8  max=5.0 | ✅ PASS | Cap or null out-of-range ratings in Week 2 Python |
-| 7a | weather:granularity | Duplicate city+date pairs (date NOT NULL): 3967  \|  NULL date rows: 2,247 | ⚠️  FAIL | Filter WHERE date IS NOT NULL in all weather joins to avoid  |
-| 7b | traffic:granularity | Duplicate city+date+time rows: 991  \|  Unique triples: 661 groups | ⚠️  FAIL | Deduplicate traffic table in Week 2 or add DISTINCT to joins |
+| 7a | weather:granularity | Duplicate city+date pairs (date NOT NULL): 4810  \|  NULL date rows: 0 | ⚠️  FAIL | Filter WHERE date IS NOT NULL in all weather joins to avoid  |
+| 7b | traffic:granularity | Duplicate city+date+time rows: 136  \|  Unique triples: 136 groups | ⚠️  FAIL | Deduplicate traffic table in Week 2 or add DISTINCT to joins |
 
 ## Key Findings
 
@@ -93,11 +93,11 @@ out_of_range (outside 1-5): 18  min=2.3  max=9.8
 *Fix:* Cap or null out-of-range ratings in Week 2 Python  
 
 **weather:granularity**  
-Duplicate city+date pairs (date NOT NULL): 3967  |  NULL date rows: 2,247  
-*Detail:* 2,247 rows have NULL date (date parse failed — likely from blank city rows not fully filtered during load). 3967 true duplicate city+date pairs.  
+Duplicate city+date pairs (date NOT NULL): 4810  |  NULL date rows: 0  
+*Detail:* 0 rows have NULL date (date parse failed — likely from blank city rows not fully filtered during load). 4810 true duplicate city+date pairs.  
 *Fix:* Filter WHERE date IS NOT NULL in all weather joins to avoid inflated results. Fix in Week 2: investigate null date origins.  
 
 **traffic:granularity**  
-Duplicate city+date+time rows: 991  |  Unique triples: 661 groups  
-*Detail:* 991 duplicate city+date+time rows — joins will double-count  
+Duplicate city+date+time rows: 136  |  Unique triples: 136 groups  
+*Detail:* 136 duplicate city+date+time rows — joins will double-count  
 *Fix:* Deduplicate traffic table in Week 2 or add DISTINCT to joins  
