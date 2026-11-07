@@ -106,7 +106,7 @@ performance_score = 0.4 × PERCENT_RANK(rating)
 ```
 
 **Weights rationale:**
-- Rating (40%) is the strongest signal of customer satisfaction.
+- Rating (40%) is given the largest weight as the most direct measure of customer satisfaction (a design choice, not a measured result).
 - Cancellation rate (30%) directly impacts revenue and customer trust.
 - Average delivery time (30%) is the core operational KPI of this project.
 

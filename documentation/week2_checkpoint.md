@@ -94,7 +94,7 @@ to the mean lat/lon of all restaurants in that city.
 | ABT: one row per order, 85 cols, all 10 merges asserted | ✅ |
 | 11 PRD features + 4 extras engineered | ✅ |
 | `build_customer_features(orders, as_of)` with cut-off date | ✅ |
-| `customer_features.csv` (8,252 rows, 8 cols) | ✅ |
+| `customer_features.csv` (8,818 rows, 8 cols) | ✅ |
 | SQL vs Python validation: 15/15 checks pass | ✅ |
 | Data Cleaning Completeness: **100%** (target ≥ 95%) | ✅ |
 | `documentation/validation_report.md` | ✅ |

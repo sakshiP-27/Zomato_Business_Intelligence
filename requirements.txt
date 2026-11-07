@@ -13,15 +13,19 @@ psycopg2-binary==2.9.9
 jupyter==1.0.0
 ipykernel==6.29.4
 notebook==7.2.0
+nbformat==5.10.4
+nbconvert==7.16.4
 
-# Visualisation (Week 3 EDA)
+# Visualisation
 matplotlib==3.9.0
 seaborn==0.13.2
 plotly==5.22.0
 
 # Machine learning (Week 3)
 scikit-learn==1.5.0
+joblib==1.4.2
 
 # Utilities
 python-dotenv==1.0.1
 openpyxl==3.1.3
+jinja2==3.1.4
