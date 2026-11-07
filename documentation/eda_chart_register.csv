@@ -1,0 +1,39 @@
+id,library,type,question,takeaway
+m01_revenue_by_city,matplotlib,bar,Q1,Kolkata leads with ₹2.02 lakh of delivered revenue; the top 3 cities hold 14% of the total and the largest city earns 1.57x the smallest (Nagpur)
+m02_revenue_by_cuisine,matplotlib,bar,Q1,"South Indian is the top cuisine at ₹3.07 lakh, 34% more than #10 Seafood"
+m03_monthly_revenue,matplotlib,line,Q1,"Monthly revenue ranges ₹1.60 lakh-₹2.06 lakh (variation 5%); the last 6 months average +1.6% vs the first 6 and 2024 is +0.4% vs 2023, so there is no clear trend"
+m10_stacked_cuisine_city,matplotlib,stacked bar,Q1,"In the top 6 cities the overall top-5 cuisines make up 20%-35% of revenue, and the #1 cuisine differs by city (5 different leaders across 6 cities)"
+m11_cumulative_revenue,matplotlib,area,Q1,"Cumulative delivered revenue reaches ₹44.06 lakh over 24 months, about ₹1.84 lakh per month; 0.0% of delivered orders have no parseable date and are excluded from all time-based charts"
+m05_orders_by_hour,matplotlib,line,Q2,Peak hour is 19:00 on weekdays and 19:00 on weekends; 19:00-22:00 carries 22.2% of orders vs 12.5% if orders were spread evenly over 24 hours
+s12_heatmap_weekday_hour,seaborn,heatmap,Q2,Busiest slot is Sun 12:00 (267 orders); quietest is Sat 1:00 (14 orders)
+m07_delivery_time_hist,matplotlib,histogram,Q3,Median delivery is 34 min and 90% arrive within 47 min; 12.1% exceed the 45-min late threshold
+m04_monthly_delivery_time,matplotlib,line,Q3,"Monthly average delivery time stays between 33.5 and 37.4 min; the fitted trend moves it -0.5 min over 24 months, i.e. no trend"
+m12_delivery_by_vehicle,matplotlib,box,Q6,"Median delivery by vehicle: Bicycle 33 min, Car 33 min, Bike 34 min, Scooter 34 min; differences are not statistically significant (p=0.40)"
+m13_delivery_vs_partner_avg,matplotlib,scatter,Q3,"A partner's historical average delivery time and this order's delivery time correlate at r=+0.004 (effectively none), so past partner speed does not predict this delivery"
+s05_delivery_by_city,seaborn,violin,Q3,Median delivery across the top 8 cities ranges 33-34 min; differences are not statistically significant (p=1.00)
+s13_delivery_by_weather,seaborn,bar,Q3,"Mean delivery by weather runs from 34.8 min (Cloudy) to 36.4 min (Foggy), a 1.6-min spread; differences are not statistically significant (p=0.61)"
+s14_delivery_by_traffic,seaborn,box,Q3,"Only 572 of 11,273 valid deliveries matched a traffic record; median delivery Low→Severe is 36 / 35 / 34 / 34 min; differences are not statistically significant (p=0.17)"
+s10_delivery_kde,seaborn,KDE,Q3,"Delivery times are right-skewed (skew 9.64): median 34 min, mean 35.4 min, longest 399 min"
+s08_regplot_preptime,seaborn,regplot,Q3,"Each extra minute of average prep time goes with +0.05 min of delivery (r=+0.013, effectively none); prep time explains 0.02% of the variation"
+m06_order_value_hist,matplotlib,histogram,Q4,Median delivered order value is ₹383; the middle half of orders falls between ₹275 and ₹504
+m14_basket_by_membership,matplotlib,bar,Q4,"Average order value: Basic ₹395, Gold ₹389, Zomato Pro ₹391; differences are not statistically significant (p=0.32)"
+s07_basket_by_membership,seaborn,box,Q4,"Median order value: Basic ₹385, Gold ₹379, Zomato Pro ₹383; differences are not statistically significant (p=0.32)"
+s11_food_cost_kde,seaborn,KDE,Q4,Median food cost is ₹382 (skew 0.13); food cost is a median 91% of the final bill
+s03_order_status_count,seaborn,countplot,Q7,"Order status split: Delivered 55.6%, Cancelled 22.3%, Food Not Delivered 11.5%, Delivered Late 10.5%"
+m09_order_status_pie,matplotlib,pie,Q7,66.1% of orders reach the customer (Delivered or Delivered Late); 33.9% are cancelled or not delivered
+m17_orders_per_customer,matplotlib,bar,Q5,47.9% of customers have exactly 1 non-cancelled order and 52.1% have 2 or more (mean 1.80)
+s19_repeat_by_membership,seaborn,bar,Q5,"Repeat-customer share by membership: Basic 52.4%, Gold 51.7%, Zomato Pro 51.8%; differences are not statistically significant (p=0.81)"
+m12b_partner_speed_vs_rating,matplotlib,scatter,Q6,"Among 112 partners with 10+ deliveries, average delivery time and rating correlate at r=+0.04 (effectively none); partner averages range 26.9-82.6 min, which with about 10 orders each is mostly sampling noise"
+s04_payment_method,seaborn,countplot,Q7,Most-used method is Debit Card (17.3%) and least-used is Upi (16.3%)
+m08_payment_pie,matplotlib,pie,Q7,"The 6 payment methods each hold 16.3%-17.3% of orders, a near-even split"
+m15_cancel_by_city,matplotlib,bar,Q7,Cancellation rate ranges from 20.0% (Coimbatore) to 24.3% (Pune) across cities; differences are not statistically significant (p=0.95)
+s15_cancel_by_payment,seaborn,bar,Q7,"Highest cancellation is Net Banking (23.8%), lowest Cash On Delivery (20.9%); differences are statistically significant (p=0.034)"
+s02_pairplot,seaborn,pairplot,Q7,"Delivery time's largest |r| with the other pairplot features is 0.015 (food_cost), so no relationships are visible"
+s15b_cancel_by_mem_hour,seaborn,bar+line,Q7,"Cancellation by membership is Basic 22.1%, Gold 22.9%, Zomato Pro 22.4%, not statistically significant (p=0.60); by hour it ranges 19.6%-26.9%, not statistically significant (p=0.84)"
+s06_rating_by_cuisine,seaborn,strip,Q7,Median restaurant rating across the top 6 cuisines ranges 3.80-4.00; differences are not statistically significant (p=0.16)
+s16_clv_by_city,seaborn,box,Q8,Median CLV across the top 10 customer cities ranges ₹548-₹642; differences are not statistically significant (p=0.44)
+s17_clv_by_cuisine,seaborn,box,Q8,Median CLV across the top 6 cuisines ranges ₹551-₹593; differences are not statistically significant (p=0.51)
+s01_correlation_heatmap,seaborn,heatmap,Q3,The strongest correlation with delivery time is traffic_score (r=-0.029); every other feature is weaker. food_cost and final_amount correlate at r=0.92 because the bill is built from the food cost
+m16_late_delivery_by_city,matplotlib,bar,Q3,Late-delivery rate ranges from 9.4% (Chandigarh) to 13.9% (Patna); differences are not statistically significant (p=0.96)
+s18_late_by_hour,seaborn,bar,Q3,Late rate by hour ranges 9.0%-14.3% and differences are not statistically significant (p=0.52); peak hours 12.3% vs off-peak 12.1%
+s09_delivery_vs_traffic,seaborn,regplot,Q3,"Across 572 deliveries with a traffic match, traffic score and delivery time correlate at r=-0.029 (effectively none)"
