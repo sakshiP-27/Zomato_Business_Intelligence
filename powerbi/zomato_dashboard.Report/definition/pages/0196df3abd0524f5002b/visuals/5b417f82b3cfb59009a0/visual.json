@@ -1,0 +1,37 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "5b417f82b3cfb59009a0",
+  "position": {
+    "x": 16,
+    "y": 8,
+    "z": 0,
+    "height": 32,
+    "width": 900,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "textbox",
+    "drillFilterOtherVisuals": true,
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Sales Dashboard  ·  revenue uses Delivered and Delivered Late",
+                    "textStyle": {
+                      "fontFamily": "Segoe UI",
+                      "fontSize": "12px"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

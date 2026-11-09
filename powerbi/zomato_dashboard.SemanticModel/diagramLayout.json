@@ -1,0 +1,256 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 1626.0071250405872,
+            "y": 768.79780378577675
+          },
+          "nodeIndex": "_Measures",
+          "nodeLineageTag": "33bdd2ee-7ec1-5ada-8162-433488d16720",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 890.623505359598,
+            "y": 97.763924030844464
+          },
+          "nodeIndex": "dim_city",
+          "nodeLineageTag": "755f3409-4165-5073-a3fe-19447e134a93",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 334.9711513137056,
+            "y": 1125.4662559555754
+          },
+          "nodeIndex": "dim_customers",
+          "nodeLineageTag": "5aca69ae-3809-5424-ad8d-5dd23ea1ae96",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 737.79046179954139,
+            "y": 559.59519511082294
+          },
+          "nodeIndex": "dim_date",
+          "nodeLineageTag": "4ac198c6-c51c-52b7-bb2a-d73867926145",
+          "size": {
+            "height": 248,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1269.4543756096559,
+            "y": 657.464704144733
+          },
+          "nodeIndex": "dim_delivery_partners",
+          "nodeLineageTag": "ad9746d4-f8aa-5fc3-a1d0-9c88a42715ed",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1316.1104795269389,
+            "y": 1489.7096650359163
+          },
+          "nodeIndex": "dim_menu",
+          "nodeLineageTag": "3b2e0ff8-9037-52aa-809c-ae33cffe5006",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1392.0071250405872,
+            "y": 1053.7594653444053
+          },
+          "nodeIndex": "dim_promotions",
+          "nodeLineageTag": "df0d0a91-d2d9-533d-b328-c0fd29566add",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1175.6416389822086,
+            "y": 303.75545316036687
+          },
+          "nodeIndex": "dim_restaurants",
+          "nodeLineageTag": "fd9822e1-681b-5465-946c-84e6e97394cf",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 452.82282726065455,
+            "y": 369.9210135915223
+          },
+          "nodeIndex": "fact_feedback",
+          "nodeLineageTag": "381dc5f1-e2ed-534a-b495-bd890f369ccb",
+          "size": {
+            "height": 248,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1105.9275159590629,
+            "y": 1212.4883916674723
+          },
+          "nodeIndex": "fact_order_items",
+          "nodeLineageTag": "3743bbe1-9949-5b63-88ef-45bd1ca53009",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 982.794255903678,
+            "y": 860.09299656791632
+          },
+          "nodeIndex": "fact_orders",
+          "nodeLineageTag": "618a5a05-ffaf-53e0-9ac4-3e3609d26e05",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 603.87025625371734,
+            "y": 1478.4874037637589
+          },
+          "nodeIndex": "fact_payments",
+          "nodeLineageTag": "703edd69-929a-5b99-a9d5-f020dc1349e6",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1910.0071250405872,
+            "y": 806.79780378577675
+          },
+          "nodeIndex": "ml_churn_feature_importance",
+          "nodeLineageTag": "fdc401de-44b1-5f38-8c69-1b794016c922",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 50,
+            "y": 853.98740472455665
+          },
+          "nodeIndex": "ml_churn_scores_test",
+          "nodeLineageTag": "994a22f8-52fd-5c95-8e3e-d2a4fde46eff",
+          "size": {
+            "height": 248,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2194.0071250405872,
+            "y": 818.79780378577675
+          },
+          "nodeIndex": "ml_delivery_feature_importance",
+          "nodeLineageTag": "3cf5f040-50a7-5e64-96d4-cfd0ae8915be",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 890.18209232363506,
+            "y": 1487.5956075715537
+          },
+          "nodeIndex": "ml_delivery_predictions",
+          "nodeLineageTag": "43fc586b-f2fb-5614-9312-87c191696fa0",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2478.0071250405872,
+            "y": 842.79780378577675
+          },
+          "nodeIndex": "ml_test_metrics",
+          "nodeLineageTag": "79b5a081-7cef-500e-b0da-fc28dd7fd0c3",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1360.0059852879494,
+            "y": -50
+          },
+          "nodeIndex": "restaurant_performance",
+          "nodeLineageTag": "086e391b-c288-5c2b-b78e-2176555e3f29",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "All tables",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "All tables",
+  "defaultDiagram": "All tables"
+}

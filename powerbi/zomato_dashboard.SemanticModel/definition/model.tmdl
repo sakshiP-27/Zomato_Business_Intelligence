@@ -1,0 +1,33 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+annotation PBI_QueryOrder = ["DataFolder", "_Measures", "dim_date", "fact_orders", "fact_order_items", "fact_payments", "fact_feedback", "dim_customers", "dim_restaurants", "dim_delivery_partners", "dim_promotions", "dim_menu", "dim_city", "restaurant_performance", "ml_delivery_predictions", "ml_delivery_feature_importance", "ml_churn_scores_test", "ml_churn_feature_importance", "ml_test_metrics"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table _Measures
+ref table dim_date
+ref table fact_orders
+ref table fact_order_items
+ref table fact_payments
+ref table fact_feedback
+ref table dim_customers
+ref table dim_restaurants
+ref table dim_delivery_partners
+ref table dim_promotions
+ref table dim_menu
+ref table dim_city
+ref table restaurant_performance
+ref table ml_delivery_predictions
+ref table ml_delivery_feature_importance
+ref table ml_churn_scores_test
+ref table ml_churn_feature_importance
+ref table ml_test_metrics
+

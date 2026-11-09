@@ -1,0 +1,131 @@
+{
+  "name": "Zomato",
+  "dataColors": [
+    "#E23744",
+    "#2A9D8F",
+    "#E9C46A",
+    "#264653",
+    "#F4A261",
+    "#6D597A",
+    "#8ECAE6",
+    "#B5838D"
+  ],
+  "foreground": "#2B2B2B",
+  "foregroundNeutralSecondary": "#6B5E5E",
+  "foregroundNeutralTertiary": "#8A7E7E",
+  "background": "#FFFFFF",
+  "backgroundLight": "#FFF8F7",
+  "backgroundNeutral": "#F6F1F1",
+  "tableAccent": "#E23744",
+  "good": "#2A9D8F",
+  "neutral": "#E9C46A",
+  "bad": "#E23744",
+  "maximum": "#E23744",
+  "center": "#F4A261",
+  "minimum": "#2A9D8F",
+  "textClasses": {
+    "callout": {
+      "fontFace": "Segoe UI Semibold",
+      "fontSize": 16,
+      "color": "#E23744"
+    },
+    "title": {
+      "fontFace": "Segoe UI Semibold",
+      "fontSize": 12,
+      "color": "#2B2B2B"
+    },
+    "header": {
+      "fontFace": "Segoe UI Semibold",
+      "fontSize": 11,
+      "color": "#6B5E5E"
+    },
+    "label": {
+      "fontFace": "Segoe UI",
+      "fontSize": 10,
+      "color": "#2B2B2B"
+    }
+  },
+  "visualStyles": {
+    "page": {
+      "*": {
+        "background": [
+          {
+            "color": { "solid": { "color": "#F7F2F2" } },
+            "transparency": 0
+          }
+        ],
+        "outspace": [
+          {
+            "color": { "solid": { "color": "#F7F2F2" } },
+            "transparency": 0
+          }
+        ]
+      }
+    },
+    "*": {
+      "*": {
+        "background": [
+          {
+            "show": true,
+            "color": { "solid": { "color": "#FFFFFF" } },
+            "transparency": 0
+          }
+        ],
+        "border": [
+          {
+            "show": true,
+            "color": { "solid": { "color": "#F0D9D9" } },
+            "radius": 8
+          }
+        ],
+        "title": [
+          {
+            "show": true,
+            "fontColor": { "solid": { "color": "#2B2B2B" } },
+            "fontSize": 12,
+            "fontFamily": "Segoe UI Semibold"
+          }
+        ],
+        "visualHeader": [
+          { "show": false }
+        ]
+      }
+    },
+    "card": {
+      "*": {
+        "labels": [
+          {
+            "color": { "solid": { "color": "#E23744" } },
+            "fontSize": 16,
+            "fontFamily": "Segoe UI Semibold"
+          }
+        ],
+        "categoryLabels": [
+          {
+            "color": { "solid": { "color": "#6B5E5E" } },
+            "fontSize": 10,
+            "fontFamily": "Segoe UI"
+          }
+        ]
+      }
+    },
+    "slicer": {
+      "*": {
+        "header": [
+          {
+            "fontColor": { "solid": { "color": "#E23744" } },
+            "fontSize": 11,
+            "fontFamily": "Segoe UI Semibold"
+          }
+        ],
+        "items": [
+          {
+            "fontColor": { "solid": { "color": "#2B2B2B" } },
+            "fontSize": 10,
+            "fontFamily": "Segoe UI"
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,6 +1,6 @@
 # Delivery Time Model Report — Week 3
 
-**Generated:** 2026-11-07 23:14  
+**Generated:** 2026-11-08 12:10  
 **Target:** `delivery_time_minutes`  
 **KPI targets:** R² ≥ 0.75  |  RMSE ≤ 6.0 min  
 

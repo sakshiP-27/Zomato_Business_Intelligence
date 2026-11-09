@@ -1,0 +1,70 @@
+table ml_churn_scores_test
+	lineageTag: 994a22f8-52fd-5c95-8e3e-d2a4fde46eff
+
+	column customer_id
+		dataType: string
+		lineageTag: da64cdbe-899b-5f25-a642-4bae3888db3c
+		summarizeBy: none
+		sourceColumn: customer_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column churn_probability
+		dataType: double
+		lineageTag: 96b9fb09-d1ee-5dce-8aaf-3235d2f235db
+		sourceColumn: churn_probability
+
+		annotation SummarizationSetBy = Automatic
+
+	column predicted_label
+		dataType: int64
+		lineageTag: 8fc6b01e-d0d8-5505-83fe-46d694d09646
+		summarizeBy: none
+		sourceColumn: predicted_label
+
+		annotation SummarizationSetBy = Automatic
+
+	column actual_label
+		dataType: int64
+		lineageTag: 3156841c-8b2a-5284-ae4e-01b887a9778f
+		summarizeBy: none
+		sourceColumn: actual_label
+
+		annotation SummarizationSetBy = Automatic
+
+	column risk_segment
+		dataType: string
+		lineageTag: f8356fb3-bbd4-5db3-9986-0f0b4a6ceb3e
+		summarizeBy: none
+		sourceColumn: risk_segment
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_city
+		dataType: string
+		lineageTag: 0e292155-8ab8-5a73-9b41-d342776b4a5f
+		summarizeBy: none
+		sourceColumn: customer_city
+
+		annotation SummarizationSetBy = Automatic
+
+	column membership
+		dataType: string
+		lineageTag: 387f149b-0920-5683-b256-4ee42cb59dd7
+		summarizeBy: none
+		sourceColumn: membership
+
+		annotation SummarizationSetBy = Automatic
+
+	partition ml_churn_scores_test = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "ml_churn_scores_test.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"customer_id", type text}, {"churn_probability", type number}, {"predicted_label", Int64.Type}, {"actual_label", Int64.Type}, {"risk_segment", type text}, {"customer_city", type text}, {"membership", type text}}, "en-US")
+				in
+				    Typed
+
+	annotation PBI_ResultType = Table
+

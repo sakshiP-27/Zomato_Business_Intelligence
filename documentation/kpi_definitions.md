@@ -73,6 +73,16 @@ CASE WHEN delivery_time_minutes > 45 AND delivery_time_minutes > 0
      THEN 'Late' ELSE 'On Time' END AS delivery_status
 ```
 
+**Power BI column `is_late`** (written by `add_features`, not recalculated in DAX):
+
+| `delivery_time_minutes` | `is_late` |
+|---|---|
+| missing, or `<= 0` | blank |
+| `> 0` and `<= 45` | 0 |
+| `> 45` | 1 |
+
+Blank is required. A late-delivery rate that treats an invalid time as 0 would count those orders as on time.
+
 ---
 
 ## 4. Active Customer
@@ -140,6 +150,23 @@ order_date > (SELECT MAX(order_date) FROM orders) - INTERVAL '3 months'
 
 ---
 
+## 8. Customer Segment (dashboard)
+
+Computed in `assign_customer_segment()` and saved as `data/cleaned/dim_customers_enriched.csv`.
+The as-of date is `MAX(order_date)` = 2024-12-31, the same reference date as every other KPI.
+Only non-cancelled orders are counted, via `build_customer_features()`.
+
+| Segment | Rule |
+|---|---|
+| New | First order is within the last **60 days** |
+| At-risk | Not New, and no order for more than **30 days** |
+| Repeat | Not New, and ordered within the last 30 days |
+| Never ordered | No non-cancelled order on or before the reference date |
+
+**How this sits next to churn.** The 60-day New window is the same length as the active-customer rule and the Week 3 churn horizon. At-risk starts earlier, at 30 days of silence. A customer quiet for 31–60 days is At-risk on the Customer Analytics page and still Active under section 4. They are not yet the churn label, which requires 60 days without an order.
+
+---
+
 ## Summary Table
 
 | Term | Definition | SQL anchor |
@@ -150,3 +177,5 @@ order_date > (SELECT MAX(order_date) FROM orders) - INTERVAL '3 months'
 | Valid delivery time | `delivery_time_minutes > 0` | `delivery_time_minutes > 0` |
 | Active customer | ≥1 order in last 60 days before reference date | `order_date > ref_date - INTERVAL '60 days'` |
 | Top restaurant | Highest weighted score (rating 40%, cancel 30%, speed 30%) within city | `v_restaurant_performance` view |
+| `is_late` | 1 if delivery time > 45; 0 if a positive time is within 45; blank if missing or ≤ 0 | `add_features()` |
+| Customer segment | New ≤ 60 days since first order; else At-risk if quiet > 30 days; else Repeat | `assign_customer_segment()` |

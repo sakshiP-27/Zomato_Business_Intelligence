@@ -1,0 +1,63 @@
+relationship 3a48a84c-95a6-51dd-b952-cd0ee9ab4efa
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fact_orders.order_date
+	toColumn: dim_date.date
+
+relationship 0ef5c0f9-48d1-5067-a22a-73324fceb8ce
+	fromColumn: fact_orders.customer_id
+	toColumn: dim_customers.customer_id
+
+relationship e367499a-2b4b-5e1b-8a85-b9d984f1b947
+	fromColumn: fact_orders.restaurant_id
+	toColumn: dim_restaurants.restaurant_id
+
+relationship a3129093-d2e7-56d0-8ce7-ca8364496cfe
+	fromColumn: fact_orders.delivery_partner_id
+	toColumn: dim_delivery_partners.delivery_partner_id
+
+relationship 94f76dc8-e573-55f9-adb1-ed7ce1be0d23
+	fromColumn: fact_orders.coupon_code
+	toColumn: dim_promotions.coupon_code
+
+relationship 4c8cbc8d-1310-58fb-83ed-e01f65ef0572
+	fromColumn: fact_orders.restaurant_city
+	toColumn: dim_city.city
+
+relationship 786d59cc-980e-5ae4-a205-7eaa1e05e4b2
+	fromColumn: fact_order_items.order_id
+	toColumn: fact_orders.order_id
+
+relationship 907d24fd-4aff-598b-b205-54f85e73e04c
+	fromColumn: fact_payments.order_id
+	toColumn: fact_orders.order_id
+
+relationship 222f7174-3522-5d57-9e37-1c7d2f7bd958
+	fromColumn: fact_feedback.order_id
+	toColumn: fact_orders.order_id
+
+relationship 731eb9bd-7552-50f0-856f-e98d082b2a96
+	fromColumn: fact_order_items.food_item_id
+	toColumn: dim_menu.food_item_id
+
+relationship 26ad50e5-9add-5671-8bab-0c13f8825e38
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: restaurant_performance.restaurant_id
+	toColumn: dim_restaurants.restaurant_id
+
+relationship 546007be-02a1-5efd-95f5-a2bd762e9488
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: ml_delivery_predictions.order_id
+	toColumn: fact_orders.order_id
+
+relationship c9e3b894-93af-5c64-b013-8e95944e393b
+	fromColumn: ml_churn_scores_test.customer_id
+	toColumn: dim_customers.customer_id
+
+relationship bfcab2c1-5bb4-5338-9fa2-f1cc6dd979ce
+	isActive: false
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_customers.registration_date
+	toColumn: dim_date.date
+

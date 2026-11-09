@@ -35,16 +35,14 @@ RAW_DIR = ROOT / "data" / "raw"
 load_dotenv(ROOT / ".env")
 DATABASE_URL = os.getenv("DATABASE_URL")
 
-if not DATABASE_URL:
-    sys.exit("ERROR: DATABASE_URL not found in .env")
 
-# SQLAlchemy needs postgresql+psycopg2:// prefix
-if DATABASE_URL.startswith("postgresql://"):
-    SQLALCHEMY_URL = DATABASE_URL.replace("postgresql://", "postgresql+psycopg2://", 1)
-elif DATABASE_URL.startswith("postgres://"):
-    SQLALCHEMY_URL = DATABASE_URL.replace("postgres://", "postgresql+psycopg2://", 1)
-else:
-    SQLALCHEMY_URL = DATABASE_URL
+def sqlalchemy_url(database_url: str) -> str:
+    """SQLAlchemy needs a postgresql+psycopg2:// prefix."""
+    if database_url.startswith("postgresql://"):
+        return database_url.replace("postgresql://", "postgresql+psycopg2://", 1)
+    if database_url.startswith("postgres://"):
+        return database_url.replace("postgres://", "postgresql+psycopg2://", 1)
+    return database_url
 
 # Expected row counts from Step 1 inspection (used for reconciliation check)
 EXPECTED_ROWS = {
@@ -146,6 +144,10 @@ def load_all() -> dict:
 
 def main() -> None:
     start_time = datetime.now()
+
+    if not DATABASE_URL:
+        sys.exit("ERROR: DATABASE_URL not found in .env")
+    SQLALCHEMY_URL = sqlalchemy_url(DATABASE_URL)
 
     print_header("Zomato BI — Step 4: Load Raw CSVs → staging schema")
     print(f"Raw data dir : {RAW_DIR.relative_to(ROOT)}")

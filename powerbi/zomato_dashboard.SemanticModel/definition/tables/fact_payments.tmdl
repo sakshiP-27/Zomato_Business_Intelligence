@@ -1,0 +1,66 @@
+table fact_payments
+	lineageTag: 703edd69-929a-5b99-a9d5-f020dc1349e6
+
+	column payment_id
+		dataType: string
+		lineageTag: 491a5d11-f444-5a5c-b011-1151e564f5b6
+		summarizeBy: none
+		sourceColumn: payment_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_id
+		dataType: string
+		lineageTag: 2529a19a-9cec-5cb6-9731-cda782fdb921
+		summarizeBy: none
+		sourceColumn: order_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column payment_method
+		dataType: string
+		lineageTag: ffdfbc90-43e2-571a-ae72-453cdce7095a
+		summarizeBy: none
+		sourceColumn: payment_method
+
+		annotation SummarizationSetBy = Automatic
+
+	column payment_status
+		dataType: string
+		lineageTag: c67e7b8f-c3fa-5191-bfcc-b6105b9c6234
+		summarizeBy: none
+		sourceColumn: payment_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column transaction_id
+		dataType: string
+		lineageTag: df8a975b-1e4b-5e69-8cfc-d3afd28b8bcf
+		summarizeBy: none
+		sourceColumn: transaction_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column payment_date
+		dataType: dateTime
+		formatString: 'Short Date'
+		lineageTag: 8ddae7d7-eaa0-5732-9f7a-b5edcc1702ee
+		summarizeBy: none
+		sourceColumn: payment_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition fact_payments = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "payments.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"payment_id", type text}, {"order_id", type text}, {"payment_method", type text}, {"payment_status", type text}, {"transaction_id", type text}, {"payment_date", type date}}, "en-US")
+				in
+				    Typed
+
+	annotation PBI_ResultType = Table
+

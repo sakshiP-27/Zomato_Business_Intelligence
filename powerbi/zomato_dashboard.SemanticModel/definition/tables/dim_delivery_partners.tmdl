@@ -1,0 +1,96 @@
+table dim_delivery_partners
+	lineageTag: ad9746d4-f8aa-5fc3-a1d0-9c88a42715ed
+
+	column delivery_partner_id
+		dataType: string
+		isKey
+		lineageTag: f8acb69e-014c-514f-adf0-3b0e5539467f
+		summarizeBy: none
+		sourceColumn: delivery_partner_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column name
+		dataType: string
+		lineageTag: 7b6b5d65-7649-5f41-933f-5a066f945dc6
+		summarizeBy: none
+		sourceColumn: name
+
+		annotation SummarizationSetBy = Automatic
+
+	column age
+		dataType: int64
+		lineageTag: 52b55835-2af0-5395-9568-22a090102f4f
+		sourceColumn: age
+
+		annotation SummarizationSetBy = Automatic
+
+	column gender
+		dataType: string
+		lineageTag: 29d3867c-fcdd-54d3-9d08-fd23ccc34881
+		summarizeBy: none
+		sourceColumn: gender
+
+		annotation SummarizationSetBy = Automatic
+
+	column vehicle_type
+		dataType: string
+		lineageTag: 618c1a13-2a70-57b7-924a-ec5ee2ddd53b
+		summarizeBy: none
+		sourceColumn: vehicle_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column joining_date
+		dataType: dateTime
+		formatString: 'Short Date'
+		lineageTag: fa84f769-bba0-5bde-a9e3-5f138935327a
+		summarizeBy: none
+		sourceColumn: joining_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column city
+		dataType: string
+		lineageTag: abc2307a-a306-5602-8fba-a8e169c0ab67
+		summarizeBy: none
+		sourceColumn: city
+
+		annotation SummarizationSetBy = Automatic
+
+	column rating
+		dataType: double
+		lineageTag: d4838093-7bcb-5bfd-a17d-f5dfb3faaede
+		sourceColumn: rating
+
+		annotation SummarizationSetBy = Automatic
+
+	column completed_deliveries
+		dataType: int64
+		lineageTag: 67ea05c0-00c6-5f3c-9b76-0b720473de4e
+		sourceColumn: completed_deliveries
+
+		annotation SummarizationSetBy = Automatic
+
+	column average_delivery_time
+		dataType: double
+		lineageTag: 272f8bd5-b9fc-5453-bdc4-da9c821808f3
+		sourceColumn: average_delivery_time
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_delivery_partners = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "delivery_partners.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Removed = Table.RemoveColumns(Promoted, {"age_was_missing"}, MissingField.Ignore),
+				    Typed = Table.TransformColumnTypes(Removed, {{"delivery_partner_id", type text}, {"name", type text}, {"age", Int64.Type}, {"gender", type text}, {"vehicle_type", type text}, {"joining_date", type date}, {"city", type text}, {"rating", type number}, {"completed_deliveries", Int64.Type}, {"average_delivery_time", type number}}, "en-US")
+				in
+				    Typed
+
+	annotation PBI_ResultType = Table
+

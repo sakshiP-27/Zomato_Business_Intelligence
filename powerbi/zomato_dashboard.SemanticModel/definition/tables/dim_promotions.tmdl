@@ -1,0 +1,69 @@
+table dim_promotions
+	lineageTag: df0d0a91-d2d9-533d-b328-c0fd29566add
+
+	column promotion_id
+		dataType: string
+		lineageTag: e6c500e8-eb16-51f6-a0c6-baaad4593a1e
+		summarizeBy: none
+		sourceColumn: promotion_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column coupon_code
+		dataType: string
+		isKey
+		lineageTag: 3e914ffd-8a52-5f6d-957f-02ffda7b3cbb
+		summarizeBy: none
+		sourceColumn: coupon_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column discount_percentage
+		dataType: int64
+		lineageTag: 52d8c464-a273-59d2-b37d-0fabd6d94b11
+		sourceColumn: discount_percentage
+
+		annotation SummarizationSetBy = Automatic
+
+	column campaign_name
+		dataType: string
+		lineageTag: 6520adb3-7aa0-5124-ba9d-085513000eea
+		summarizeBy: none
+		sourceColumn: campaign_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column start_date
+		dataType: dateTime
+		formatString: 'Short Date'
+		lineageTag: 821eeca1-965b-5609-b132-e26bba15cb4e
+		summarizeBy: none
+		sourceColumn: start_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column end_date
+		dataType: dateTime
+		formatString: 'Short Date'
+		lineageTag: ac313ebc-1d5c-5827-a5c3-0f081ab82941
+		summarizeBy: none
+		sourceColumn: end_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition dim_promotions = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "promotions.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"promotion_id", type text}, {"coupon_code", type text}, {"discount_percentage", Int64.Type}, {"campaign_name", type text}, {"start_date", type date}, {"end_date", type date}}, "en-US")
+				in
+				    Typed
+
+	annotation PBI_ResultType = Table
+

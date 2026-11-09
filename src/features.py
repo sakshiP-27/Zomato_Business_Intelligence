@@ -280,6 +280,36 @@ def build_customer_features(orders: pd.DataFrame,
     return agg.reset_index()
 
 
+# Customer-page segments (Week 4). Thresholds are documented in kpi_definitions.md.
+NEW_CUSTOMER_DAYS = 60
+AT_RISK_QUIET_DAYS = 30
+
+
+def assign_customer_segment(feats: pd.DataFrame, as_of: pd.Timestamp) -> pd.Series:
+    """
+    Label each customer who has ordered.
+
+    New:     first order falls within the last 60 days (same window as the
+             active-customer rule and the churn horizon).
+    At-risk: not new, and quiet for more than 30 days. This is an earlier
+             warning than the 60-day churn label.
+    Repeat:  not new, and ordered within the last 30 days.
+    """
+    first_order = pd.to_datetime(feats["first_order"], errors="coerce")
+    days_since = pd.to_numeric(feats["days_since_last_order"], errors="coerce")
+    return pd.Series(
+        np.select(
+            [
+                (as_of - first_order).dt.days <= NEW_CUSTOMER_DAYS,
+                days_since > AT_RISK_QUIET_DAYS,
+            ],
+            ["New", "At-risk"],
+            default="Repeat",
+        ),
+        index=feats.index,
+    )
+
+
 # ---------------------------------------------------------------------------
 # Step 9: Engineered features
 # ---------------------------------------------------------------------------
@@ -300,7 +330,7 @@ def add_features(abt: pd.DataFrame) -> pd.DataFrame:
     Extra features added:
         avg_prep_time, max_prep_time, n_items, discount_pct,
         partner_tenure_days, is_peak_and_rain, order_dayofweek,
-        order_month, order_minute, is_weekend_and_rain
+        order_month, order_minute, is_weekend_and_rain, is_late
 
     NOTE: feedback ratings (feedback_customer_rating, feedback_delivery_rating,
           feedback_food_rating, average_rating) are present in the ABT for EDA
@@ -416,6 +446,15 @@ def add_features(abt: pd.DataFrame) -> pd.DataFrame:
 
     # ---- Feature 11: CouponUsed (binary) ----
     df["coupon_used"] = df["coupon_code"].notna().astype(int)
+
+    # ---- Late delivery flag (kpi_definitions.md; used by Power BI, not re-derived in DAX) ----
+    # 1 = later than 45 minutes, 0 = on time.
+    # Blank when the time is missing or not positive, so a late-rate ignores those rows.
+    dt = pd.to_numeric(df["delivery_time_minutes"], errors="coerce")
+    valid_time = dt.notna() & (dt > 0)
+    is_late = pd.Series(pd.NA, index=df.index, dtype="Int64")
+    is_late.loc[valid_time] = (dt.loc[valid_time] > 45).astype("int64").to_numpy()
+    df["is_late"] = is_late
 
     # ---- Extra: partner_tenure_days already in ABT from Step 8 ----
     # avg_prep_time, max_prep_time, n_items, discount_pct, distance_to_city_centre_km

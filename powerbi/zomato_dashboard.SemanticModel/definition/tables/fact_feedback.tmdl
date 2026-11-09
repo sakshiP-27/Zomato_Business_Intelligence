@@ -1,0 +1,68 @@
+table fact_feedback
+	lineageTag: 381dc5f1-e2ed-534a-b495-bd890f369ccb
+
+	column feedback_id
+		dataType: string
+		lineageTag: cd704242-e756-5c0d-8178-415fd6dbe082
+		summarizeBy: none
+		sourceColumn: feedback_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_id
+		dataType: string
+		lineageTag: 9f27a9fd-435b-5813-bbd1-37c70030b06b
+		summarizeBy: none
+		sourceColumn: order_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_rating
+		dataType: int64
+		lineageTag: d8dc4c01-363f-531f-b7ff-b6e29849e80b
+		sourceColumn: customer_rating
+
+		annotation SummarizationSetBy = Automatic
+
+	column delivery_rating
+		dataType: int64
+		lineageTag: 4b571dcc-2f43-581b-ac30-23ca199f84ec
+		sourceColumn: delivery_rating
+
+		annotation SummarizationSetBy = Automatic
+
+	column food_rating
+		dataType: int64
+		lineageTag: ecd1a601-9404-521c-8f76-e3a402c25ac3
+		sourceColumn: food_rating
+
+		annotation SummarizationSetBy = Automatic
+
+	column sentiment
+		dataType: string
+		lineageTag: 58144f90-fc19-5100-b1c4-2d73c283b565
+		summarizeBy: none
+		sourceColumn: sentiment
+
+		annotation SummarizationSetBy = Automatic
+
+	column has_review
+		dataType: int64
+		lineageTag: 1cfc3d0c-66be-53fc-a79b-f9de10afa324
+		sourceColumn: has_review
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_feedback = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "customer_feedback.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Removed = Table.RemoveColumns(Promoted, {"review"}, MissingField.Ignore),
+				    Typed = Table.TransformColumnTypes(Removed, {{"feedback_id", type text}, {"order_id", type text}, {"customer_rating", Int64.Type}, {"delivery_rating", Int64.Type}, {"food_rating", Int64.Type}, {"sentiment", type text}, {"has_review", Int64.Type}}, "en-US")
+				in
+				    Typed
+
+	annotation PBI_ResultType = Table
+

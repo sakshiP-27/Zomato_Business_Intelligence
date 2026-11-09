@@ -3,8 +3,8 @@
     "target": "delivery_time_minutes",
     "model": "Random Forest",
     "model_file": "delivery_time_best_model.pkl",
-    "sklearn_version": "1.9.1",
-    "trained_on": "2026-11-07",
+    "sklearn_version": "1.9.0",
+    "trained_on": "2026-11-08",
     "test_metrics": {
       "MAE": 7.84,
       "MSE": 95.532,
@@ -56,20 +56,20 @@
     "cutoff_date": "2024-11-01",
     "horizon_days": 60,
     "churn_rate": 0.8739,
-    "churn_threshold": 0.42,
+    "churn_threshold": 0.41,
     "naive_baseline_f1": 0.9326,
     "test_metrics": {
       "accuracy": 0.8737,
       "precision": 0.8737,
       "recall": 1.0,
       "f1": 0.9326,
-      "roc_auc": 0.5207,
-      "pr_auc": 0.8746,
-      "threshold": 0.42
+      "roc_auc": 0.5143,
+      "pr_auc": 0.8742,
+      "threshold": 0.41
     },
     "kpi_f1_target": 0.7,
-    "sklearn_version": "1.9.1",
-    "trained_on": "2026-11-07",
+    "sklearn_version": "1.9.0",
+    "trained_on": "2026-11-08",
     "risk_bands": {
       "Low": [
         0.0,

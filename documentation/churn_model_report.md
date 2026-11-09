@@ -1,6 +1,6 @@
 # Churn Classification Model Report — Week 3
 
-**Generated:** 2026-11-07 23:16  
+**Generated:** 2026-11-08 12:12  
 **Target:** `churned` (1 = no order in 60 days after cutoff)  
 **KPI target:** F1 ≥ 0.7  
 
@@ -36,17 +36,17 @@ SMOTE was not used to avoid introducing synthetic samples in a one-hot encoded s
 | Model | CV F1 | CV Precision | CV Recall | CV ROC-AUC | CV PR-AUC |
 |---|---|---|---|---|---|
 | Baseline (predict majority) | 0.9327 | 0.8739 | 1.0 | 0.5 | 0.8739 |
-| Random Forest | 0.9321 | 0.8739 | 0.9986 | 0.4916 | 0.871 |
+| Random Forest | 0.9319 | 0.8738 | 0.9981 | 0.4916 | 0.8709 |
 | Gradient Boosting | 0.8712 | 0.8745 | 0.8681 | 0.5029 | 0.8721 |
 | Logistic Regression | 0.6843 | 0.8798 | 0.5602 | 0.5131 | 0.8738 |
-| Decision Tree | 0.5961 | 0.8725 | 0.4654 | 0.5106 | 0.8767 |
+| Decision Tree | 0.596 | 0.8724 | 0.4653 | 0.5104 | 0.8767 |
 
 ## Hyperparameter Tuning
 
 ### Random Forest
 
-- Before: CV F1 = 0.9321
-- After:  CV F1 = 0.9313
+- Before: CV F1 = 0.9319
+- After:  CV F1 = 0.9310
 - Best params: `{'model__n_estimators': 100, 'model__min_samples_leaf': 1, 'model__max_features': 'sqrt', 'model__max_depth': None}`
 
 ### Gradient Boosting
@@ -59,15 +59,15 @@ SMOTE was not used to avoid introducing synthetic samples in a one-hot encoded s
 ## Test Set Results
 
 **Winner: Random Forest**  
-**Decision threshold: 0.420** (F1-maximising, chosen on OOF predictions)  
+**Decision threshold: 0.410** (F1-maximising, chosen on OOF predictions)  
 
 | Metric | Value | Baseline (predict all churn) | KPI | Status |
 |---|---|---|---|---|
 | F1 | 0.9326 | 0.9326 | ≥0.7 | ✅ PASS |
 | Precision | 0.8737 | — | — | — |
 | Recall | 1.0 | — | — | — |
-| ROC-AUC | 0.5207 | 0.50 (random) | — | ⚠️ |
-| PR-AUC | 0.8746 | 0.8739 (naive) | — | — |
+| ROC-AUC | 0.5143 | 0.50 (random) | — | ⚠️ |
+| PR-AUC | 0.8742 | 0.8739 (naive) | — | — |
 | Accuracy | 0.8737 | 0.8739 | — | — |
 
 ## Interpretation
@@ -76,19 +76,19 @@ The churn rate is 87.4% — the majority of customers placed only 1–2 orders.
 The naive baseline (predict everyone churns) already achieves F1=0.9326.  
 
 The model achieves F1=0.9326 vs baseline F1=0.9326.
-ROC-AUC=0.5207 (above 0.5=random, below 0.95=no suspicious leakage).  
+ROC-AUC=0.5143 (above 0.5=random, below 0.95=no suspicious leakage).  
 
 **In plain English:** the model's precision and recall trade-off is tuned at the  
-F1-maximising threshold (0.42). Of every 100 customers the model  
+F1-maximising threshold (0.41). Of every 100 customers the model  
 flags as high-risk, approximately 87 have actually churned.  
 It catches approximately 100% of customers who will churn.  
 
 **Key churn drivers** (from permutation importance):
-- `tenure_days`: importance = 0.0245
-- `customer_lifetime_value`: importance = 0.0165
-- `average_basket_value`: importance = 0.0117
-- `customer_gender`: importance = 0.0111
-- `days_since_last_order`: importance = 0.0100
+- `customer_lifetime_value`: importance = 0.0180
+- `tenure_days`: importance = 0.0148
+- `customer_gender`: importance = 0.0103
+- `n_restaurants`: importance = 0.0088
+- `average_basket_value`: importance = 0.0076
 
 **Recommendations:** only act on a risk segment if `src/churn_analysis.py` shows its actual  
 churn rate differs from the other segments (`data/cleaned/ml_churn_segment_check.csv`).  
@@ -101,18 +101,18 @@ churn rate differs from the other segments (`data/cleaned/ml_churn_segment_check
 |---|---|---|---|---|
 | Logistic Regression | (a) no handling | 0.9327 | 0.5156 | 0.8746 |
 | Logistic Regression | (b) class_weight=balanced | 0.6843 | 0.5131 | 0.8738 |
-| Random Forest | (a) no handling | 0.9327 | 0.499 | 0.8723 |
-| Random Forest | (b) class_weight=balanced | 0.932 | 0.4884 | 0.8699 |
+| Random Forest | (a) no handling | 0.9327 | 0.4987 | 0.8729 |
+| Random Forest | (b) class_weight=balanced | 0.9321 | 0.4879 | 0.8697 |
 
 Accuracy would mislead here: predicting churn for everyone is 87.4% accurate. `class_weight=balanced` is the documented default.
 
-**Threshold in plain words:** the F1-maximising threshold (0.420) flags 1694 of 1694 test customers (100.0%); of those, 87.4% actually churned, against an overall churn rate of 87.4%.
+**Threshold in plain words:** the F1-maximising threshold (0.410) flags 1694 of 1694 test customers (100.0%); of those, 87.4% actually churned, against an overall churn rate of 87.4%.
 
-**Risk segments:** band edges are terciles of the training out-of-fold probabilities (Low < 0.720, Medium 0.720-0.790, High >= 0.790). Actual churn rate per segment on the test set: Low 86.8%, Medium 87.1%, High 88.5%. The segments do not separate churners, so they should not be used to target offers.
+**Risk segments:** band edges are terciles of the training out-of-fold probabilities (Low < 0.720, Medium 0.720-0.790, High >= 0.790). Actual churn rate per segment on the test set: Low 87.5%, Medium 85.9%, High 89.1%. The segments do not separate churners, so they should not be used to target offers.
 
-**Drivers:** 2 of 20 features have permutation importance clearly above noise (tenure_days, customer_lifetime_value); measured directions are in `ml_churn_feature_importance.csv`.
+**Drivers:** 3 of 20 features have permutation importance clearly above noise (customer_lifetime_value, tenure_days, n_restaurants); measured directions are in `ml_churn_feature_importance.csv`.
 
-**Conclusion:** test ROC-AUC is 0.52. The churn label is not predictable from the available features in this dataset; the F1 KPI is met only because most customers churn, and no retention recommendation is supported.
+**Conclusion:** test ROC-AUC is 0.51. The churn label is not predictable from the available features in this dataset; the F1 KPI is met only because most customers churn, and no retention recommendation is supported.
 
 ## Saved Artefacts
 

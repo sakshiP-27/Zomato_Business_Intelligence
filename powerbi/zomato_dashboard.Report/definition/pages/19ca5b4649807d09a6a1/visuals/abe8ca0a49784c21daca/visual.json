@@ -1,0 +1,37 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "abe8ca0a49784c21daca",
+  "position": {
+    "x": 16,
+    "y": 8,
+    "z": 0,
+    "height": 32,
+    "width": 1100,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "textbox",
+    "drillFilterOtherVisuals": true,
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Restaurant Analytics  ·  score is from the SQL view, ranked inside each city, minimum 10 orders",
+                    "textStyle": {
+                      "fontFamily": "Segoe UI",
+                      "fontSize": "12px"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

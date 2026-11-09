@@ -1,0 +1,78 @@
+table dim_menu
+	lineageTag: 3b2e0ff8-9037-52aa-809c-ae33cffe5006
+
+	column food_item_id
+		dataType: string
+		isKey
+		lineageTag: 3d23f22d-dec4-531a-b461-dacc4d152970
+		summarizeBy: none
+		sourceColumn: food_item_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column restaurant_id
+		dataType: string
+		lineageTag: 372e3b3c-a754-5f20-aa80-60eeb37dd260
+		summarizeBy: none
+		sourceColumn: restaurant_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column food_name
+		dataType: string
+		lineageTag: 87414bce-84d7-5888-9acc-47bd0aa9b38f
+		summarizeBy: none
+		sourceColumn: food_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column category
+		dataType: string
+		lineageTag: 08cd68ac-8c30-5297-8e6a-83fd01431bcb
+		summarizeBy: none
+		sourceColumn: category
+
+		annotation SummarizationSetBy = Automatic
+
+	column price
+		dataType: double
+		formatString: '₹#,0.00'
+		lineageTag: 5b02f912-168c-5b03-b223-16469ba73b12
+		sourceColumn: price
+
+		annotation SummarizationSetBy = Automatic
+
+	column preparation_time
+		dataType: double
+		lineageTag: 4ede62de-d319-5e76-b5e4-49b7123bba78
+		sourceColumn: preparation_time
+
+		annotation SummarizationSetBy = Automatic
+
+	column calories
+		dataType: int64
+		lineageTag: 13a9ea36-95d2-5b90-806e-6e6e43051bcf
+		sourceColumn: calories
+
+		annotation SummarizationSetBy = Automatic
+
+	column availability
+		dataType: string
+		lineageTag: e2fa9aa9-0ab5-5e62-ab2a-077474c9ba7c
+		summarizeBy: none
+		sourceColumn: availability
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_menu = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "menu.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"food_item_id", type text}, {"restaurant_id", type text}, {"food_name", type text}, {"category", type text}, {"price", type number}, {"preparation_time", type number}, {"calories", Int64.Type}, {"availability", type text}}, "en-US")
+				in
+				    Typed
+
+	annotation PBI_ResultType = Table
+

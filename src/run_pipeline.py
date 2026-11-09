@@ -18,6 +18,8 @@ import time
 from pathlib import Path
 from datetime import datetime
 
+import pandas as pd
+
 # Ensure project root is on the path when run as a script
 ROOT = Path(__file__).resolve().parent.parent
 if str(ROOT) not in sys.path:
@@ -25,7 +27,12 @@ if str(ROOT) not in sys.path:
 
 from src.ingest import load_all
 from src.clean import CleaningLog, DataCleaner, CITY_ALIASES
-from src.features import build_analytical_base_table, add_features, build_customer_features
+from src.features import (
+    build_analytical_base_table,
+    add_features,
+    build_customer_features,
+    assign_customer_segment,
+)
 
 # ---------------------------------------------------------------------------
 # Config
@@ -103,6 +110,8 @@ def main() -> None:
     # 6. Engineer features (Step 9)
     print("Step 5: Engineering features ...")
     abt = add_features(abt)
+    # Power BI needs a date with no time part (Week 4, Step 1).
+    abt["order_date"] = pd.to_datetime(abt["order_date"]).dt.strftime("%Y-%m-%d")
     abt.to_csv(ABT_PATH, index=False)
     print(f"  ✅ analytical_base_table.csv  ({len(abt):,} rows, {len(abt.columns)} cols)")
     print(f"  ({time.time()-t0:.1f}s)\n")
@@ -110,7 +119,6 @@ def main() -> None:
     # 7. Build customer features as-of reference date (Step 10)
     print("Step 6: Building customer features (as-of reference date) ...")
     t0 = time.time()
-    import pandas as pd
     orders_clean = cleaned["orders"].copy()
     orders_clean["order_date"] = pd.to_datetime(orders_clean["order_date"], errors="coerce")
     orders_clean["final_amount"] = pd.to_numeric(orders_clean["final_amount"], errors="coerce")
@@ -120,6 +128,24 @@ def main() -> None:
     cust_features.to_csv(cust_features_path, index=False)
     print(f"  Reference date  : {ref_date.date()}")
     print(f"  ✅ customer_features.csv  ({len(cust_features):,} rows, {len(cust_features.columns)} cols)")
+
+    # Week 4 Step 1: customer dimension with CLV, recency, and segments.
+    # Thresholds live in kpi_definitions.md (New = 60 days, At-risk = quiet > 30 days).
+    cust_features = cust_features.copy()
+    cust_features["customer_segment"] = assign_customer_segment(cust_features, ref_date)
+    customers = cleaned["customers"].copy()
+    customers_enriched = customers.merge(
+        cust_features, on="customer_id", how="left", validate="1:1"
+    )
+    customers_enriched["customer_segment"] = (
+        customers_enriched["customer_segment"].fillna("Never ordered")
+    )
+    enriched_path = CLEAN_DIR / "dim_customers_enriched.csv"
+    customers_enriched.to_csv(enriched_path, index=False)
+    seg_counts = customers_enriched["customer_segment"].value_counts()
+    print(f"  ✅ dim_customers_enriched.csv  ({len(customers_enriched):,} rows)")
+    for label, n in seg_counts.items():
+        print(f"       {label:<16} {n:,}")
     print(f"  ({time.time()-t0:.1f}s)\n")
 
     # 8. Save cleaning log
@@ -135,6 +161,7 @@ def main() -> None:
     print(f"  12 cleaned CSVs       → {CLEAN_DIR.relative_to(ROOT)}/")
     print(f"  analytical_base_table → {ABT_PATH.relative_to(ROOT)}")
     print(f"  customer_features     → {cust_features_path.relative_to(ROOT)}")
+    print(f"  dim_customers_enriched→ {enriched_path.relative_to(ROOT)}")
     print(f"  cleaning_log          → {LOG_PATH.relative_to(ROOT)}")
     print(f"  quarantine files      → {len(list(CLEAN_DIR.glob('quarantine_*.csv')))} files")
     print(f"  ABT rows/cols         → {len(abt):,} rows × {len(abt.columns)} cols")

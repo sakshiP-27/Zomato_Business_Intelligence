@@ -1,6 +1,6 @@
 # Validation Report — Step 11
 
-**Generated:** 2026-11-07 23:10:23  
+**Generated:** 2026-11-08 12:18:27  
 **SQL source:** Supabase (production schema, Week 1)  
 **Python source:** `data/cleaned/` (Week 2 pipeline)  
 

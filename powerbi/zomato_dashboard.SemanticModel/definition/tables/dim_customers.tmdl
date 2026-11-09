@@ -1,0 +1,193 @@
+table dim_customers
+	lineageTag: 5aca69ae-3809-5424-ad8d-5dd23ea1ae96
+
+	column customer_id
+		dataType: string
+		isKey
+		lineageTag: d389d080-d05c-5d9a-bcbc-7ebcb41aaefe
+		summarizeBy: none
+		sourceColumn: customer_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column name
+		dataType: string
+		lineageTag: 396c1e46-e68c-5c08-b426-c7dcf3e92bac
+		summarizeBy: none
+		sourceColumn: name
+
+		annotation SummarizationSetBy = Automatic
+
+	column age
+		dataType: int64
+		lineageTag: 71c3365b-d033-5eca-865f-fbb734a7f527
+		sourceColumn: age
+
+		annotation SummarizationSetBy = Automatic
+
+	column gender
+		dataType: string
+		lineageTag: e40bda7c-9de2-5d6f-892b-0eee9aa010dc
+		summarizeBy: none
+		sourceColumn: gender
+
+		annotation SummarizationSetBy = Automatic
+
+	column phone
+		dataType: string
+		lineageTag: cec9fbe4-c79b-56ac-b855-98de3c0e28ae
+		summarizeBy: none
+		sourceColumn: phone
+
+		annotation SummarizationSetBy = Automatic
+
+	column email
+		dataType: string
+		lineageTag: ef4012c4-8250-596d-afae-2ec0ab7512cb
+		summarizeBy: none
+		sourceColumn: email
+
+		annotation SummarizationSetBy = Automatic
+
+	column city
+		dataType: string
+		lineageTag: 1b468ddd-e4b5-514c-b76f-04a9674a6fc8
+		summarizeBy: none
+		sourceColumn: city
+
+		annotation SummarizationSetBy = Automatic
+
+	column state
+		dataType: string
+		lineageTag: 31d6b60c-c955-58bb-b5d0-75d6dbfcd20f
+		summarizeBy: none
+		sourceColumn: state
+
+		annotation SummarizationSetBy = Automatic
+
+	column pincode
+		dataType: string
+		lineageTag: 5898d309-ecdc-54a4-a411-1b9500408dfe
+		summarizeBy: none
+		sourceColumn: pincode
+
+		annotation SummarizationSetBy = Automatic
+
+	column registration_date
+		dataType: dateTime
+		formatString: 'Short Date'
+		lineageTag: b554f22b-e049-5436-a042-12ce8548a990
+		summarizeBy: none
+		sourceColumn: registration_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column membership
+		dataType: string
+		lineageTag: 46e99461-9b95-5421-9cb5-e96120dd4691
+		summarizeBy: none
+		sourceColumn: membership
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_orders
+		dataType: int64
+		lineageTag: 9e342987-7545-54d0-af67-f6c57ba27f91
+		sourceColumn: total_orders
+
+		annotation SummarizationSetBy = Automatic
+
+	column preferred_cuisine
+		dataType: string
+		lineageTag: cee3fbc6-2ba7-5685-b70d-2ff8cfade404
+		summarizeBy: none
+		sourceColumn: preferred_cuisine
+
+		annotation SummarizationSetBy = Automatic
+
+	column orders_to_date
+		dataType: dateTime
+		formatString: 'Short Date'
+		lineageTag: 544fb484-ec82-5047-b148-328a6771c40f
+		summarizeBy: none
+		sourceColumn: orders_to_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column customer_lifetime_value
+		dataType: double
+		formatString: '₹#,0.00'
+		lineageTag: 0d47fadc-4077-50ba-a37f-035bb07bc7f3
+		sourceColumn: customer_lifetime_value
+
+		annotation SummarizationSetBy = Automatic
+
+	column average_basket_value
+		dataType: double
+		formatString: '₹#,0.00'
+		lineageTag: 485617fe-1b10-5ebc-a0c4-492f7659de65
+		sourceColumn: average_basket_value
+
+		annotation SummarizationSetBy = Automatic
+
+	column first_order
+		dataType: dateTime
+		formatString: 'Short Date'
+		lineageTag: c7eb42a4-8842-5e4a-bc47-36816f949f8d
+		summarizeBy: none
+		sourceColumn: first_order
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column last_order
+		dataType: dateTime
+		formatString: 'Short Date'
+		lineageTag: a8624a55-5b18-5b3f-ba5c-e3a5f1c3123c
+		summarizeBy: none
+		sourceColumn: last_order
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column days_since_last_order
+		dataType: int64
+		lineageTag: d983d3c7-8aea-5f31-bd48-20d1b4d596a7
+		sourceColumn: days_since_last_order
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_frequency_30d
+		dataType: double
+		lineageTag: 47b8347f-e751-5b3a-aa68-c13e53183a12
+		sourceColumn: order_frequency_30d
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_segment
+		dataType: string
+		lineageTag: daefd9d0-5999-53da-9a05-cdfc236619bd
+		summarizeBy: none
+		sourceColumn: customer_segment
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_customers = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "dim_customers_enriched.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Removed = Table.RemoveColumns(Promoted, {"age_was_missing", "phone_valid", "email_valid", "pincode_valid"}, MissingField.Ignore),
+				    Typed = Table.TransformColumnTypes(Removed, {{"customer_id", type text}, {"name", type text}, {"age", Int64.Type}, {"gender", type text}, {"phone", type text}, {"email", type text}, {"city", type text}, {"state", type text}, {"pincode", type text}, {"registration_date", type date}, {"membership", type text}, {"total_orders", Int64.Type}, {"preferred_cuisine", type text}, {"orders_to_date", type date}, {"customer_lifetime_value", type number}, {"average_basket_value", type number}, {"first_order", type date}, {"last_order", type date}, {"days_since_last_order", Int64.Type}, {"order_frequency_30d", type number}, {"customer_segment", type text}}, "en-US")
+				in
+				    Typed
+
+	annotation PBI_ResultType = Table
+

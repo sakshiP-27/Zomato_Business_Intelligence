@@ -1,0 +1,55 @@
+table dim_city
+	lineageTag: 755f3409-4165-5073-a3fe-19447e134a93
+
+	column city_id
+		dataType: string
+		lineageTag: effce82c-c6e5-55b3-a14b-ade52542f053
+		summarizeBy: none
+		sourceColumn: city_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column city
+		dataType: string
+		isKey
+		lineageTag: c7ea0241-3bf9-5811-b6b4-5ac44d8080ec
+		summarizeBy: none
+		sourceColumn: city
+
+		annotation SummarizationSetBy = Automatic
+
+	column population
+		dataType: int64
+		lineageTag: 4c2a826e-06b6-563b-8203-cdf672bf48c6
+		sourceColumn: population
+
+		annotation SummarizationSetBy = Automatic
+
+	column region
+		dataType: string
+		lineageTag: 7e527eb1-597d-5136-9c85-f8e67ec22bc4
+		summarizeBy: none
+		sourceColumn: region
+
+		annotation SummarizationSetBy = Automatic
+
+	column average_income
+		dataType: double
+		formatString: '₹#,0.00'
+		lineageTag: e2463e82-7046-5d75-bb18-cf19f54eb178
+		sourceColumn: average_income
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_city = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "cities.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"city_id", type text}, {"city", type text}, {"population", Int64.Type}, {"region", type text}, {"average_income", type number}}, "en-US")
+				in
+				    Typed
+
+	annotation PBI_ResultType = Table
+

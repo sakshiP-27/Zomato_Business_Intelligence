@@ -1,0 +1,107 @@
+table ml_delivery_predictions
+	lineageTag: 43fc586b-f2fb-5614-9312-87c191696fa0
+
+	column order_id
+		dataType: string
+		isKey
+		lineageTag: 00493b2b-5bd0-573c-aae2-474db576aa6c
+		summarizeBy: none
+		sourceColumn: order_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column actual_minutes
+		dataType: double
+		lineageTag: 43d490cd-149d-53e5-b7e6-4555007d64f4
+		sourceColumn: actual_minutes
+
+		annotation SummarizationSetBy = Automatic
+
+	column predicted_minutes
+		dataType: double
+		lineageTag: bfc61b67-ab8c-5b2a-acaf-eb35010d0663
+		sourceColumn: predicted_minutes
+
+		annotation SummarizationSetBy = Automatic
+
+	column residual
+		dataType: double
+		lineageTag: a148a219-22e4-528c-9f75-0c4271220f81
+		sourceColumn: residual
+
+		annotation SummarizationSetBy = Automatic
+
+	column abs_error
+		dataType: double
+		lineageTag: 954a49cd-eba1-5d97-8b8e-2e31e431ce18
+		sourceColumn: abs_error
+
+		annotation SummarizationSetBy = Automatic
+
+	column restaurant_city
+		dataType: string
+		lineageTag: ebb4eb0a-ee4c-55d9-adbe-3badfce776e5
+		summarizeBy: none
+		sourceColumn: restaurant_city
+
+		annotation SummarizationSetBy = Automatic
+
+	column peak_hour
+		dataType: int64
+		lineageTag: 1db3f59c-3f20-5422-b28f-39502053c450
+		sourceColumn: peak_hour
+
+		annotation SummarizationSetBy = Automatic
+
+	column weather_condition
+		dataType: string
+		lineageTag: 187e901a-e7b1-5a0b-87c3-57e242c03f38
+		summarizeBy: none
+		sourceColumn: weather_condition
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_status
+		dataType: string
+		lineageTag: 05fa5ee6-b31c-5d41-b709-91bee4defaf8
+		summarizeBy: none
+		sourceColumn: order_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column restaurant_cuisine
+		dataType: string
+		lineageTag: e4bc199a-775e-52e1-b12a-f16ded14db59
+		summarizeBy: none
+		sourceColumn: restaurant_cuisine
+
+		annotation SummarizationSetBy = Automatic
+
+	column membership
+		dataType: string
+		lineageTag: 6fe303d9-8df5-5fbf-b758-5fc30cc4500b
+		summarizeBy: none
+		sourceColumn: membership
+
+		annotation SummarizationSetBy = Automatic
+
+	column vehicle_type
+		dataType: string
+		lineageTag: fd5b4648-87a6-5f75-9533-05e45375810a
+		summarizeBy: none
+		sourceColumn: vehicle_type
+
+		annotation SummarizationSetBy = Automatic
+
+	partition ml_delivery_predictions = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "ml_delivery_predictions.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"order_id", type text}, {"actual_minutes", type number}, {"predicted_minutes", type number}, {"residual", type number}, {"abs_error", type number}, {"restaurant_city", type text}, {"peak_hour", Int64.Type}, {"weather_condition", type text}, {"order_status", type text}, {"restaurant_cuisine", type text}, {"membership", type text}, {"vehicle_type", type text}}, "en-US")
+				in
+				    Typed
+
+	annotation PBI_ResultType = Table
+
