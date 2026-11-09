@@ -1,0 +1,38 @@
+table ml_test_metrics
+	lineageTag: 79b5a081-7cef-500e-b0da-fc28dd7fd0c3
+
+	column model
+		dataType: string
+		lineageTag: f0190981-9b24-538b-81d0-708ba3ba701a
+		summarizeBy: none
+		sourceColumn: model
+
+		annotation SummarizationSetBy = Automatic
+
+	column metric
+		dataType: string
+		lineageTag: 795edae0-49bc-5529-8475-5a5eb2c8dc7d
+		summarizeBy: none
+		sourceColumn: metric
+
+		annotation SummarizationSetBy = Automatic
+
+	column value
+		dataType: double
+		lineageTag: 691a16c2-dc17-5041-aee9-ff1541e228dd
+		sourceColumn: value
+
+		annotation SummarizationSetBy = Automatic
+
+	partition ml_test_metrics = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "ml_test_metrics.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"model", type text}, {"metric", type text}, {"value", type number}}, "en-US")
+				in
+				    Typed
+
+	annotation PBI_ResultType = Table
+

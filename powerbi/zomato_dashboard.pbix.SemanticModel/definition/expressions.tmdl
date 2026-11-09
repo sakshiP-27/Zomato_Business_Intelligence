@@ -1,0 +1,5 @@
+expression DataFolder = "C:\\Users\\saksh\\Zomato_Business_Intelligence\\data\\cleaned\\" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: 09b6c12c-729e-58cc-b84d-18457b2c19a4
+
+	annotation PBI_ResultType = Text
+

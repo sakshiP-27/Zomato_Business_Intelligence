@@ -1,0 +1,62 @@
+table fact_order_items
+	lineageTag: 3743bbe1-9949-5b63-88ef-45bd1ca53009
+
+	column order_item_id
+		dataType: string
+		lineageTag: a799e26a-1172-53bf-ba30-471ae8cfc917
+		summarizeBy: none
+		sourceColumn: order_item_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_id
+		dataType: string
+		lineageTag: b7b3a3f9-5f5f-599f-9a0d-c4ee64baca78
+		summarizeBy: none
+		sourceColumn: order_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column food_item_id
+		dataType: string
+		lineageTag: 5d05acb4-5b67-5a10-ae55-9c1f03d33082
+		summarizeBy: none
+		sourceColumn: food_item_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column quantity
+		dataType: int64
+		lineageTag: f269a962-c615-551e-bd15-3025ecae6d6c
+		sourceColumn: quantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column unit_price
+		dataType: double
+		formatString: '₹#,0.00'
+		lineageTag: 528aaa58-d843-5fe5-a244-d0598d231d0a
+		sourceColumn: unit_price
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_price
+		dataType: double
+		formatString: '₹#,0.00'
+		lineageTag: e69ead29-947e-5962-b3b3-a4696a5ecd81
+		sourceColumn: total_price
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_order_items = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "order_items.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"order_item_id", type text}, {"order_id", type text}, {"food_item_id", type text}, {"quantity", Int64.Type}, {"unit_price", type number}, {"total_price", type number}}, "en-US")
+				in
+				    Typed
+
+	annotation PBI_ResultType = Table
+

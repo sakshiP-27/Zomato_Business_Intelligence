@@ -1,0 +1,117 @@
+table dim_restaurants
+	lineageTag: fd9822e1-681b-5465-946c-84e6e97394cf
+
+	column restaurant_id
+		dataType: string
+		isKey
+		lineageTag: fa17b4f4-616d-5b49-adef-cc76826330a8
+		summarizeBy: none
+		sourceColumn: restaurant_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column restaurant_name
+		dataType: string
+		lineageTag: cfc0a109-20f2-50a1-be1b-614791f7d84d
+		summarizeBy: none
+		sourceColumn: restaurant_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column cuisine
+		dataType: string
+		lineageTag: 0f6ba06e-db38-5c64-8c56-f0fa165cd6f5
+		summarizeBy: none
+		sourceColumn: cuisine
+
+		annotation SummarizationSetBy = Automatic
+
+	column city
+		dataType: string
+		lineageTag: 0b2aef1e-342c-5523-9f59-195275c69e69
+		summarizeBy: none
+		sourceColumn: city
+
+		annotation SummarizationSetBy = Automatic
+
+	column area
+		dataType: string
+		lineageTag: 994dfa69-2cd9-5a70-9c65-796621a8bacf
+		summarizeBy: none
+		sourceColumn: area
+
+		annotation SummarizationSetBy = Automatic
+
+	column opening_time
+		dataType: string
+		lineageTag: fe3cdf32-19a5-56aa-af88-8be225812da8
+		summarizeBy: none
+		sourceColumn: opening_time
+
+		annotation SummarizationSetBy = Automatic
+
+	column closing_time
+		dataType: string
+		lineageTag: 6940ba30-979f-5012-b69c-1cb3f5d6e968
+		summarizeBy: none
+		sourceColumn: closing_time
+
+		annotation SummarizationSetBy = Automatic
+
+	column rating
+		dataType: double
+		lineageTag: 1776da09-43f2-59fe-83f1-612913451de8
+		sourceColumn: rating
+
+		annotation SummarizationSetBy = Automatic
+
+	column average_cost
+		dataType: double
+		formatString: '₹#,0.00'
+		lineageTag: 7830297d-7e78-59a1-ad39-83b5614e3848
+		sourceColumn: average_cost
+
+		annotation SummarizationSetBy = Automatic
+
+	column owner_name
+		dataType: string
+		lineageTag: be2e1c19-3b7d-5e74-a19d-65808469d32a
+		summarizeBy: none
+		sourceColumn: owner_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column restaurant_type
+		dataType: string
+		lineageTag: 36e0ac4e-274c-5660-adf1-51b071ec9c29
+		summarizeBy: none
+		sourceColumn: restaurant_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column latitude
+		dataType: double
+		lineageTag: f541bb1e-5043-5f5d-aeb6-f213023ca01f
+		sourceColumn: latitude
+
+		annotation SummarizationSetBy = Automatic
+
+	column longitude
+		dataType: double
+		lineageTag: b91f37bb-946b-5c3d-8513-0562dfc1ff11
+		sourceColumn: longitude
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_restaurants = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "restaurants.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"restaurant_id", type text}, {"restaurant_name", type text}, {"cuisine", type text}, {"city", type text}, {"area", type text}, {"opening_time", type text}, {"closing_time", type text}, {"rating", type number}, {"average_cost", type number}, {"owner_name", type text}, {"restaurant_type", type text}, {"latitude", type number}, {"longitude", type number}}, "en-US")
+				in
+				    Typed
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,89 @@
+table dim_date
+	lineageTag: 4ac198c6-c51c-52b7-bb2a-d73867926145
+	dataCategory: Time
+
+	column date
+		dataType: dateTime
+		isKey
+		formatString: 'Short Date'
+		lineageTag: cd1905e2-12b8-52f2-b8de-f529d28c1bba
+		summarizeBy: none
+		sourceColumn: date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Year
+		dataType: int64
+		lineageTag: 6a9084d5-d5bb-54e8-be70-dd13f553dabe
+		summarizeBy: none
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month
+		dataType: string
+		lineageTag: f81c5594-a3c2-5935-a354-00a90ff539aa
+		summarizeBy: none
+		sourceColumn: Month
+
+		annotation SummarizationSetBy = Automatic
+
+	column Weekday
+		dataType: int64
+		lineageTag: 2b077996-d54e-5c2a-9cb0-27da0bb3843e
+		summarizeBy: none
+		sourceColumn: Weekday
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Number'
+		dataType: int64
+		formatString: 0
+		lineageTag: b3362428-0135-4b51-bd35-b58f2d1364a9
+		summarizeBy: none
+		sourceColumn: Month Number
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Start'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 54cbc505-bfdd-4d71-a559-054530d87a00
+		summarizeBy: none
+		sourceColumn: Month Start
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Is Weekend'
+		dataType: int64
+		formatString: 0
+		lineageTag: 1b691bf2-299a-498c-916f-0207e1681dc0
+		summarizeBy: none
+		sourceColumn: Is Weekend
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_date = m
+		mode: import
+		source =
+				let
+				    StartDate = #date(2022, 1, 1),
+				    EndDate = #date(2024, 12, 31),
+				    Dates = List.Dates(StartDate, Duration.Days(EndDate - StartDate) + 1, #duration(1, 0, 0, 0)),
+				    AsTable = Table.FromList(Dates, Splitter.SplitByNothing(), {"date"}),
+				    Typed = Table.TransformColumnTypes(AsTable, {{"date", type date}}),
+				    WithYear = Table.AddColumn(Typed, "Year", each Date.Year([date]), Int64.Type),
+				    WithMonthNumber = Table.AddColumn(WithYear, "Month Number", each Date.Month([date]), Int64.Type),
+				    WithMonth = Table.AddColumn(WithMonthNumber, "Month", each Date.ToText([date], "MMM", "en-US"), type text),
+				    WithMonthStart = Table.AddColumn(WithMonth, "Month Start", each Date.StartOfMonth([date]), type date),
+				    WithWeekday = Table.AddColumn(WithMonthStart, "Weekday", each Date.DayOfWeek([date], Day.Monday) + 1, Int64.Type),
+				    WithWeekend = Table.AddColumn(WithWeekday, "Is Weekend", each if Date.DayOfWeek([date], Day.Monday) >= 5 then 1 else 0, Int64.Type)
+				in
+				    WithWeekend
+
+	annotation PBI_ResultType = Table
+

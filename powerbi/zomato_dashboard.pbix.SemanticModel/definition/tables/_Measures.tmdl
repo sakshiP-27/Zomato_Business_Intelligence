@@ -1,0 +1,459 @@
+table _Measures
+	lineageTag: 33bdd2ee-7ec1-5ada-8162-433488d16720
+
+	measure 'Total Revenue' = ```
+				CALCULATE (
+				    SUM ( fact_orders[final_amount] ),
+				    fact_orders[order_status] IN { "Delivered", "Delivered Late" },
+				    fact_orders[final_amount] > 0
+				)
+			```
+		formatString: '₹#,0.00'
+		displayFolder: Core
+		lineageTag: d39a6f3f-f1f9-550b-b438-255768642310
+
+	measure 'Total Orders' = ```
+				DISTINCTCOUNT ( fact_orders[order_id] )
+			```
+		formatString: '#,0'
+		displayFolder: Core
+		lineageTag: 4d0a50d4-b399-5174-b6e6-a43ec4acc8af
+
+	measure 'Delivered Orders' = ```
+				CALCULATE (
+				    [Total Orders],
+				    fact_orders[order_status] IN { "Delivered", "Delivered Late" },
+				    fact_orders[final_amount] > 0
+				)
+			```
+		formatString: '#,0'
+		displayFolder: Core
+		lineageTag: 50abfa83-1915-5899-8b9b-6f8f349016fc
+
+	measure 'Cancelled Orders' = ```
+				CALCULATE ( [Total Orders], fact_orders[order_status] = "Cancelled" )
+			```
+		formatString: '#,0'
+		displayFolder: Core
+		lineageTag: 91a5dfab-04a3-500c-9d6d-0d7375ff8631
+
+	measure 'Cancellation Rate' = ```
+				DIVIDE ( [Cancelled Orders], [Total Orders] )
+			```
+		formatString: '0.0%'
+		displayFolder: Core
+		lineageTag: f042bbb6-1c27-53d9-ba13-597155afb9cf
+
+	measure 'Avg Order Value' = ```
+				DIVIDE ( [Total Revenue], [Delivered Orders] )
+			```
+		formatString: '₹#,0.00'
+		displayFolder: Core
+		lineageTag: 30865998-d551-5583-b2d9-071915e45be1
+
+	measure 'Avg Delivery Time' = ```
+				CALCULATE (
+				    AVERAGE ( fact_orders[delivery_time_minutes] ),
+				    fact_orders[order_status] IN { "Delivered", "Delivered Late" },
+				    fact_orders[delivery_time_minutes] > 0
+				)
+			```
+		formatString: '0.0'
+		displayFolder: Core
+		lineageTag: 113dea8f-72a0-5cb5-8a20-fbcaa03d7a7c
+
+	measure 'Late Delivery %' = ```
+				DIVIDE ( SUM ( fact_orders[is_late] ), COUNT ( fact_orders[is_late] ) )
+			```
+		formatString: '0.0%'
+		displayFolder: Core
+		lineageTag: ec63f26b-2611-558a-8cc3-db205341d1fc
+
+	measure 'Avg Rating' = ```
+				AVERAGE ( fact_feedback[customer_rating] )
+			```
+		formatString: '0.00'
+		displayFolder: Core
+		lineageTag: 0788d98b-7bc7-559d-8835-48b77d7c79c0
+
+	measure 'Active Customers (60d)' = ```
+				VAR EndDate = MAX ( dim_date[date] )
+				RETURN
+				    CALCULATE (
+				        DISTINCTCOUNT ( fact_orders[customer_id] ),
+				        dim_date[date] > EndDate - 60,
+				        dim_date[date] <= EndDate
+				    )
+			```
+		formatString: '#,0'
+		displayFolder: Core
+		lineageTag: ee338f2f-7a2b-5ebc-9db1-62d38e7083ac
+
+	measure 'Revenue (₹ L)' = ```
+				[Total Revenue] / 100000
+			```
+		formatString: '"₹"0.00" L"'
+		displayFolder: Core
+		lineageTag: 31894894-1f24-5e16-9f52-c90d90b9e1c0
+
+	measure 'Customer Rows' = ```
+				COUNTROWS ( dim_customers )
+			```
+		formatString: '#,0'
+		displayFolder: Customers
+		lineageTag: 49e7c02f-1c27-5268-83a5-7be1c9b24561
+
+	measure 'Ordering Customers' = ```
+				DISTINCTCOUNT ( fact_orders[customer_id] )
+			```
+		formatString: '#,0'
+		displayFolder: Customers
+		lineageTag: 962fe0c5-5012-5abd-ad13-07e4fa3917ce
+
+	measure 'Repeat Customers' = ```
+				COUNTROWS (
+				    FILTER (
+				        VALUES ( fact_orders[customer_id] ),
+				        CALCULATE ( [Total Orders] ) >= 2
+				    )
+				)
+			```
+		formatString: '#,0'
+		displayFolder: Customers
+		lineageTag: 103fb135-2767-5d2a-8483-64ee23d1e8ee
+
+	measure 'Repeat Customer %' = ```
+				DIVIDE ( [Repeat Customers], [Ordering Customers] )
+			```
+		formatString: '0.0%'
+		displayFolder: Customers
+		lineageTag: 6382fe00-2557-58de-b04f-556b1425d061
+
+	measure 'Customers Prev Month' = ```
+				CALCULATE (
+				    DISTINCTCOUNT ( fact_orders[customer_id] ),
+				    DATEADD ( dim_date[date], -1, MONTH )
+				)
+			```
+		formatString: '#,0'
+		displayFolder: Customers
+		lineageTag: 5cbe68e4-e810-55d9-9ab0-998ab8c4b0a0
+
+	measure 'Retained Customers' = ```
+				VAR Current = VALUES ( fact_orders[customer_id] )
+				VAR Previous =
+				    CALCULATETABLE (
+				        VALUES ( fact_orders[customer_id] ),
+				        DATEADD ( dim_date[date], -1, MONTH )
+				    )
+				RETURN
+				    COUNTROWS ( INTERSECT ( Current, Previous ) )
+			```
+		formatString: '#,0'
+		displayFolder: Customers
+		lineageTag: dabbbb3d-3abd-58d6-b44c-6bb690a5e3d2
+
+	measure 'Retention Rate' = ```
+				DIVIDE ( [Retained Customers], [Customers Prev Month] )
+			```
+		formatString: '0.0%'
+		displayFolder: Customers
+		lineageTag: e103b51b-75e8-5435-9a1f-585f6bd64d6f
+
+	measure 'Avg Monthly Retention' = ```
+				VAR Months =
+				    SUMMARIZE ( dim_date, dim_date[Year], dim_date[Month Number] )
+				RETURN
+				    AVERAGEX (
+				        Months,
+				        VAR Y = dim_date[Year]
+				        VAR M = dim_date[Month Number]
+				        VAR PrevM = IF ( M = 1, 12, M - 1 )
+				        VAR PrevY = IF ( M = 1, Y - 1, Y )
+				        VAR CurrentIds =
+				            CALCULATETABLE (
+				                VALUES ( fact_orders[customer_id] ),
+				                REMOVEFILTERS ( dim_date ),
+				                dim_date[Year] = Y,
+				                dim_date[Month Number] = M
+				            )
+				        VAR PreviousIds =
+				            CALCULATETABLE (
+				                VALUES ( fact_orders[customer_id] ),
+				                REMOVEFILTERS ( dim_date ),
+				                dim_date[Year] = PrevY,
+				                dim_date[Month Number] = PrevM
+				            )
+				        RETURN
+				            DIVIDE (
+				                COUNTROWS ( INTERSECT ( CurrentIds, PreviousIds ) ),
+				                COUNTROWS ( PreviousIds )
+				            )
+				    )
+			```
+		formatString: '0.0%'
+		displayFolder: Customers
+		lineageTag: fc0efa0b-3f56-58bc-ac37-afae568ff646
+
+	measure 'New Customers' = ```
+				CALCULATE (
+				    COUNTROWS ( dim_customers ),
+				    USERELATIONSHIP ( dim_date[date], dim_customers[registration_date] )
+				)
+			```
+		formatString: '#,0'
+		displayFolder: Customers
+		lineageTag: ae581964-bd70-5b91-9102-785fb726c6ea
+
+	measure 'Cumulative Customers' = ```
+				CALCULATE (
+				    [New Customers],
+				    FILTER ( ALL ( dim_date[date] ), dim_date[date] <= MAX ( dim_date[date] ) )
+				)
+			```
+		formatString: '#,0'
+		displayFolder: Customers
+		lineageTag: a3a547b4-4d93-5b45-945c-f6baaf3dc581
+
+	measure 'Average CLV' = ```
+				AVERAGE ( dim_customers[customer_lifetime_value] )
+			```
+		formatString: '₹#,0.00'
+		displayFolder: Customers
+		lineageTag: 695f0218-551b-5433-bda4-9e5b0aa61545
+
+	measure 'Coupon Orders' = ```
+				CALCULATE ( [Total Orders], NOT ISBLANK ( fact_orders[coupon_code] ) )
+			```
+		formatString: '#,0'
+		displayFolder: Sales
+		lineageTag: 8c32a707-d0f2-594a-a856-a9fcc6b9b5bb
+
+	measure 'Coupon Usage %' = ```
+				DIVIDE ( [Coupon Orders], [Total Orders] )
+			```
+		formatString: '0.0%'
+		displayFolder: Sales
+		lineageTag: cfeb2b42-f873-503c-b6ca-bf1e51193355
+
+	measure 'Total Discount' = ```
+				SUM ( fact_orders[discount] )
+			```
+		formatString: '₹#,0.00'
+		displayFolder: Sales
+		lineageTag: 4527b812-fcc8-5adb-b2e5-502e0da6f085
+
+	measure 'Discount % of Food Value' = ```
+				DIVIDE ( [Total Discount], SUM ( fact_orders[food_cost] ) )
+			```
+		formatString: '0.0%'
+		displayFolder: Sales
+		lineageTag: b719ae8a-c685-5390-8a1b-a145cae07620
+
+	measure 'AOV With Coupon' = ```
+				CALCULATE ( [Avg Order Value], NOT ISBLANK ( fact_orders[coupon_code] ) )
+			```
+		formatString: '₹#,0.00'
+		displayFolder: Sales
+		lineageTag: 9004a640-b252-5f66-8b70-7d080c000bf4
+
+	measure 'AOV Without Coupon' = ```
+				CALCULATE ( [Avg Order Value], ISBLANK ( fact_orders[coupon_code] ) )
+			```
+		formatString: '₹#,0.00'
+		displayFolder: Sales
+		lineageTag: 105b1242-daf6-5886-a748-e6dd8bb268b0
+
+	measure 'Payment Failure Rate' = ```
+				DIVIDE (
+				    CALCULATE ( COUNTROWS ( fact_payments ), fact_payments[payment_status] = "Failed" ),
+				    COUNTROWS ( fact_payments )
+				)
+			```
+		formatString: '0.0%'
+		displayFolder: Sales
+		lineageTag: 6b8fd269-6ebd-59b8-a1fd-f3e7a8d083fe
+
+	measure 'P90 Delivery Time' = ```
+				PERCENTILEX.INC (
+				    FILTER (
+				        fact_orders,
+				        fact_orders[order_status] IN { "Delivered", "Delivered Late" }
+				            && fact_orders[delivery_time_minutes] > 0
+				    ),
+				    fact_orders[delivery_time_minutes],
+				    0.9
+				)
+			```
+		formatString: '0.0'
+		displayFolder: Delivery
+		lineageTag: d2bbe092-5a2b-5087-9f1a-1f2da55b9e5c
+
+	measure MAE = ```
+				AVERAGEX (
+				    ml_delivery_predictions,
+				    ABS ( ml_delivery_predictions[actual_minutes] - ml_delivery_predictions[predicted_minutes] )
+				)
+			```
+		formatString: '0.00'
+		displayFolder: ML
+		lineageTag: 27de1594-af86-544d-8e23-0923bda7daa8
+
+	measure RMSE = ```
+				SQRT (
+				    AVERAGEX (
+				        ml_delivery_predictions,
+				        ( ml_delivery_predictions[actual_minutes] - ml_delivery_predictions[predicted_minutes] ) ^ 2
+				    )
+				)
+			```
+		formatString: '0.00'
+		displayFolder: ML
+		lineageTag: cad18f06-9a6b-573f-b103-f8199db3ee8b
+
+	measure R2 = ```
+				VAR MeanActual = AVERAGE ( ml_delivery_predictions[actual_minutes] )
+				VAR SSE =
+				    SUMX (
+				        ml_delivery_predictions,
+				        ( ml_delivery_predictions[actual_minutes] - ml_delivery_predictions[predicted_minutes] ) ^ 2
+				    )
+				VAR SST =
+				    SUMX (
+				        ml_delivery_predictions,
+				        ( ml_delivery_predictions[actual_minutes] - MeanActual ) ^ 2
+				    )
+				RETURN
+				    1 - DIVIDE ( SSE, SST )
+			```
+		formatString: '0.000'
+		displayFolder: ML
+		lineageTag: 83669da8-dd7f-515c-b7f2-ccb835701152
+
+	measure TP = ```
+				CALCULATE (
+				    COUNTROWS ( ml_churn_scores_test ),
+				    ml_churn_scores_test[actual_label] = 1,
+				    ml_churn_scores_test[predicted_label] = 1
+				)
+			```
+		formatString: '#,0'
+		displayFolder: 'ML helpers'
+		lineageTag: 641ac2e3-ce4d-58d4-80cd-0efc0c73f0bc
+
+	measure FP = ```
+				CALCULATE (
+				    COUNTROWS ( ml_churn_scores_test ),
+				    ml_churn_scores_test[actual_label] = 0,
+				    ml_churn_scores_test[predicted_label] = 1
+				)
+			```
+		formatString: '#,0'
+		displayFolder: 'ML helpers'
+		lineageTag: 651bdd41-2731-59ab-a40d-a04594879618
+
+	measure FN = ```
+				CALCULATE (
+				    COUNTROWS ( ml_churn_scores_test ),
+				    ml_churn_scores_test[actual_label] = 1,
+				    ml_churn_scores_test[predicted_label] = 0
+				)
+			```
+		formatString: '#,0'
+		displayFolder: 'ML helpers'
+		lineageTag: 7c28bf0c-cb74-5302-99da-95bf01e3d0a0
+
+	measure Precision = ```
+				DIVIDE ( [TP], [TP] + [FP] )
+			```
+		formatString: '0.0%'
+		displayFolder: ML
+		lineageTag: 170ea7b6-cb1c-503e-b640-3907ac005d3e
+
+	measure Recall = ```
+				DIVIDE ( [TP], [TP] + [FN] )
+			```
+		formatString: '0.0%'
+		displayFolder: ML
+		lineageTag: 94277799-8309-5969-8118-df67e200151d
+
+	measure 'F1 Score' = ```
+				DIVIDE ( 2 * [Precision] * [Recall], [Precision] + [Recall] )
+			```
+		formatString: '0.000'
+		displayFolder: ML
+		lineageTag: 530e2045-3b35-5cf6-9f73-b1cacce0af81
+
+	measure ROC-AUC = ```
+				CALCULATE (
+				    MAX ( ml_test_metrics[value] ),
+				    ml_test_metrics[model] = "churn",
+				    ml_test_metrics[metric] = "roc_auc"
+				)
+			```
+		formatString: '0.000'
+		displayFolder: ML
+		lineageTag: 46ef080f-c498-5e85-942e-685dcdff0715
+
+	measure 'Saved Delivery R2' = ```
+				CALCULATE (
+				    MAX ( ml_test_metrics[value] ),
+				    ml_test_metrics[model] = "delivery",
+				    ml_test_metrics[metric] = "r2"
+				)
+			```
+		formatString: '0.0000'
+		displayFolder: ML
+		lineageTag: ec4cf00b-9194-57ed-bce8-062f3ec895ec
+
+	measure 'Performance Score' = ```
+				AVERAGE ( restaurant_performance[performance_score] )
+			```
+		formatString: '0.000'
+		displayFolder: Restaurants
+		lineageTag: 41ee094a-593f-52a0-a2f1-ba56e5123239
+
+	measure 'Feature Importance' = ```
+				SUM ( ml_delivery_feature_importance[importance] )
+			```
+		formatString: '0.0000'
+		displayFolder: ML
+		lineageTag: 63186208-7200-5f94-941b-17ef1c2cabc1
+
+	measure 'Churn Test Customers' = ```
+				COUNTROWS ( ml_churn_scores_test )
+			```
+		formatString: '#,0'
+		displayFolder: ML
+		lineageTag: 727b2b30-3a90-5263-9602-54c8d9701ab8
+
+	measure 'Saved Delivery RMSE' = ```
+				CALCULATE (
+				    MAX ( ml_test_metrics[value] ),
+				    ml_test_metrics[model] = "delivery",
+				    ml_test_metrics[metric] = "rmse"
+				)
+			```
+		formatString: '0.000'
+		displayFolder: ML
+		lineageTag: 6b6a9acf-f751-5793-ae26-5a1c98558619
+
+	column dummy
+		dataType: string
+		isHidden
+		lineageTag: af70be79-2bab-5623-b80b-aece2f2af9b7
+		summarizeBy: none
+		sourceColumn: dummy
+
+		annotation SummarizationSetBy = Automatic
+
+	partition _Measures = m
+		mode: import
+		source =
+				let
+				    Source = #table({"dummy"}, {{""}})
+				in
+				    Source
+
+	annotation PBI_ResultType = Table
+

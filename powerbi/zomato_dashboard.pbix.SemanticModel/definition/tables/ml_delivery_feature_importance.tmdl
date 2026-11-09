@@ -1,0 +1,53 @@
+table ml_delivery_feature_importance
+	lineageTag: 3cf5f040-50a7-5e64-96d4-cfd0ae8915be
+
+	column feature
+		dataType: string
+		lineageTag: a8455825-b855-5c0b-80de-e96b998860ae
+		summarizeBy: none
+		sourceColumn: feature
+
+		annotation SummarizationSetBy = Automatic
+
+	column importance
+		dataType: double
+		lineageTag: fdabfd70-0371-5948-a755-a3ae32117b53
+		sourceColumn: importance
+
+		annotation SummarizationSetBy = Automatic
+
+	column std
+		dataType: double
+		lineageTag: d7bfeba9-4db2-5a84-9242-2cbc28cde7e1
+		sourceColumn: std
+
+		annotation SummarizationSetBy = Automatic
+
+	column direction
+		dataType: string
+		lineageTag: b32c435f-cf8c-51ec-8152-39fe10be55c6
+		summarizeBy: none
+		sourceColumn: direction
+
+		annotation SummarizationSetBy = Automatic
+
+	column distinguishable_from_noise
+		dataType: string
+		lineageTag: aa59e235-4ece-5d31-b3f5-848215c24e22
+		summarizeBy: none
+		sourceColumn: distinguishable_from_noise
+
+		annotation SummarizationSetBy = Automatic
+
+	partition ml_delivery_feature_importance = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "ml_delivery_feature_importance.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"feature", type text}, {"importance", type number}, {"std", type number}, {"direction", type text}, {"distinguishable_from_noise", type text}}, "en-US")
+				in
+				    Typed
+
+	annotation PBI_ResultType = Table
+

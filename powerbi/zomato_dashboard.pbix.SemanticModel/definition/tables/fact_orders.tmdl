@@ -1,0 +1,664 @@
+table fact_orders
+	lineageTag: 618a5a05-ffaf-53e0-9ac4-3e3609d26e05
+
+	column order_id
+		dataType: string
+		isKey
+		lineageTag: 67f2a341-53e0-5ad5-be5a-f6c6939026fc
+		summarizeBy: none
+		sourceColumn: order_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_id
+		dataType: string
+		lineageTag: d2b986b1-58ea-51c5-aa3e-3aaf6755bef1
+		summarizeBy: none
+		sourceColumn: customer_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column restaurant_id
+		dataType: string
+		lineageTag: 71aa542b-4fab-57a3-8b7a-586e3541343a
+		summarizeBy: none
+		sourceColumn: restaurant_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column delivery_partner_id
+		dataType: string
+		lineageTag: 8e0a38a0-38d7-5873-965a-2b61fae61493
+		summarizeBy: none
+		sourceColumn: delivery_partner_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_date
+		dataType: dateTime
+		formatString: 'Short Date'
+		lineageTag: 998388e4-3b69-5322-ae85-bc1329f6bee3
+		summarizeBy: none
+		sourceColumn: order_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column order_time
+		dataType: string
+		lineageTag: 9fb7841f-5e62-599d-abef-8ede3dcf9fca
+		summarizeBy: none
+		sourceColumn: order_time
+
+		annotation SummarizationSetBy = Automatic
+
+	column delivery_time_minutes
+		dataType: double
+		lineageTag: 71751a82-6c6f-5d95-991d-6c0707796bb2
+		sourceColumn: delivery_time_minutes
+
+		annotation SummarizationSetBy = Automatic
+
+	column food_cost
+		dataType: double
+		formatString: '₹#,0.00'
+		lineageTag: be79b8db-872a-56fa-8e58-d84f1e7269ee
+		sourceColumn: food_cost
+
+		annotation SummarizationSetBy = Automatic
+
+	column delivery_fee
+		dataType: double
+		formatString: '₹#,0.00'
+		lineageTag: f584fae0-9cd1-5a55-bd7b-e4ae33e2cc01
+		sourceColumn: delivery_fee
+
+		annotation SummarizationSetBy = Automatic
+
+	column discount
+		dataType: double
+		formatString: '₹#,0.00'
+		lineageTag: d1b352ce-54a3-5e3a-9912-925e79804b16
+		sourceColumn: discount
+
+		annotation SummarizationSetBy = Automatic
+
+	column coupon_code
+		dataType: string
+		lineageTag: f1e80f2b-cdfb-5e6e-bc6f-5cde39278904
+		summarizeBy: none
+		sourceColumn: coupon_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column gst
+		dataType: double
+		formatString: '₹#,0.00'
+		lineageTag: 523a3f6f-812a-5db6-8de9-83565b515970
+		sourceColumn: gst
+
+		annotation SummarizationSetBy = Automatic
+
+	column final_amount
+		dataType: double
+		formatString: '₹#,0.00'
+		lineageTag: 0c0698e0-531f-5928-85d7-a840fffe4f44
+		sourceColumn: final_amount
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_status
+		dataType: string
+		lineageTag: 1364e6bb-93c4-5942-a2b8-ee14292d1349
+		summarizeBy: none
+		sourceColumn: order_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column payment_method
+		dataType: string
+		lineageTag: 8943d631-9c95-5b00-8066-f517277bc5dd
+		summarizeBy: none
+		sourceColumn: payment_method
+
+		annotation SummarizationSetBy = Automatic
+
+	column dt_outlier_flag
+		dataType: int64
+		lineageTag: 7430f33a-87d7-550d-abde-4ebbb3decc84
+		sourceColumn: dt_outlier_flag
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_name
+		dataType: string
+		lineageTag: 89bd2167-e713-5c48-b4ec-4ae51a83f236
+		summarizeBy: none
+		sourceColumn: customer_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_age
+		dataType: int64
+		lineageTag: 3fd57ae4-9216-5caa-b5fe-e749094d25b2
+		sourceColumn: customer_age
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_gender
+		dataType: string
+		lineageTag: 760b6e52-59cf-54bd-8c31-a9d764be87e0
+		summarizeBy: none
+		sourceColumn: customer_gender
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_city
+		dataType: string
+		lineageTag: 2ae082fb-d422-5ead-9a21-eb36d2af9b7a
+		summarizeBy: none
+		sourceColumn: customer_city
+
+		annotation SummarizationSetBy = Automatic
+
+	column state
+		dataType: string
+		lineageTag: 0607a037-881b-5082-a080-4eee1ade0930
+		summarizeBy: none
+		sourceColumn: state
+
+		annotation SummarizationSetBy = Automatic
+
+	column membership
+		dataType: string
+		lineageTag: 96aee642-a7e0-5d72-af02-e087c81128ae
+		summarizeBy: none
+		sourceColumn: membership
+
+		annotation SummarizationSetBy = Automatic
+
+	column registration_date
+		dataType: dateTime
+		formatString: 'Short Date'
+		lineageTag: 12e5e7fb-5fc4-539e-83c3-90e8e52bc6ab
+		summarizeBy: none
+		sourceColumn: registration_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column total_orders
+		dataType: int64
+		lineageTag: 8db45001-a943-554a-bec6-dff1629c77cb
+		sourceColumn: total_orders
+
+		annotation SummarizationSetBy = Automatic
+
+	column preferred_cuisine
+		dataType: string
+		lineageTag: 8093b86b-8292-563e-9407-052e2ac02589
+		summarizeBy: none
+		sourceColumn: preferred_cuisine
+
+		annotation SummarizationSetBy = Automatic
+
+	column restaurant_name
+		dataType: string
+		lineageTag: a58167fa-2dfc-5081-8880-e06a37aafb0a
+		summarizeBy: none
+		sourceColumn: restaurant_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column restaurant_cuisine
+		dataType: string
+		lineageTag: e9d640b9-611e-50d4-b865-fedf9ae15fca
+		summarizeBy: none
+		sourceColumn: restaurant_cuisine
+
+		annotation SummarizationSetBy = Automatic
+
+	column restaurant_city
+		dataType: string
+		lineageTag: b8443bc6-1439-5894-818f-306f11cbb999
+		summarizeBy: none
+		sourceColumn: restaurant_city
+
+		annotation SummarizationSetBy = Automatic
+
+	column area
+		dataType: string
+		lineageTag: 85bafe31-20eb-5146-80aa-9472c4331137
+		summarizeBy: none
+		sourceColumn: area
+
+		annotation SummarizationSetBy = Automatic
+
+	column restaurant_rating
+		dataType: double
+		lineageTag: a6a24b29-b269-55e9-80ff-6131431d40d4
+		sourceColumn: restaurant_rating
+
+		annotation SummarizationSetBy = Automatic
+
+	column average_cost
+		dataType: double
+		formatString: '₹#,0.00'
+		lineageTag: 4e24ecca-2750-5636-9e46-b9a7129ea52b
+		sourceColumn: average_cost
+
+		annotation SummarizationSetBy = Automatic
+
+	column restaurant_type
+		dataType: string
+		lineageTag: ca4d01cd-ab47-5be5-9cdb-51ef83a3cd11
+		summarizeBy: none
+		sourceColumn: restaurant_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column latitude
+		dataType: double
+		lineageTag: 0e6db4bf-3fa1-5200-8a0d-d356a9f180cd
+		sourceColumn: latitude
+
+		annotation SummarizationSetBy = Automatic
+
+	column longitude
+		dataType: double
+		lineageTag: 6ec7dca5-c9e9-5fc6-8670-fd9d855e3bd9
+		sourceColumn: longitude
+
+		annotation SummarizationSetBy = Automatic
+
+	column partner_name
+		dataType: string
+		lineageTag: 64611651-c33c-5f25-b7d8-ee978e503ece
+		summarizeBy: none
+		sourceColumn: partner_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column partner_age
+		dataType: int64
+		lineageTag: 6f285f92-7491-5065-a0f5-2218b27f8514
+		sourceColumn: partner_age
+
+		annotation SummarizationSetBy = Automatic
+
+	column partner_gender
+		dataType: string
+		lineageTag: 7485bae6-d56a-5c9b-89a3-a24cd79915c8
+		summarizeBy: none
+		sourceColumn: partner_gender
+
+		annotation SummarizationSetBy = Automatic
+
+	column vehicle_type
+		dataType: string
+		lineageTag: 5a18b865-15d4-5aa1-87c3-3a9adcccfb98
+		summarizeBy: none
+		sourceColumn: vehicle_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column joining_date
+		dataType: dateTime
+		formatString: 'Short Date'
+		lineageTag: 23e6c45d-c1d9-5e3c-b6d5-d68edb238182
+		summarizeBy: none
+		sourceColumn: joining_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column partner_city
+		dataType: string
+		lineageTag: 3e5dae22-6502-506e-9801-52e473680df9
+		summarizeBy: none
+		sourceColumn: partner_city
+
+		annotation SummarizationSetBy = Automatic
+
+	column partner_rating
+		dataType: double
+		lineageTag: 22d71f4a-f2dc-57f3-b57c-5e483b69ea72
+		sourceColumn: partner_rating
+
+		annotation SummarizationSetBy = Automatic
+
+	column completed_deliveries
+		dataType: int64
+		lineageTag: d00de050-f80e-5aa1-9154-eace057fb37a
+		sourceColumn: completed_deliveries
+
+		annotation SummarizationSetBy = Automatic
+
+	column partner_avg_delivery_time
+		dataType: double
+		lineageTag: d2a22195-6caf-5670-b886-0d0faf65b6b2
+		sourceColumn: partner_avg_delivery_time
+
+		annotation SummarizationSetBy = Automatic
+
+	column discount_percentage
+		dataType: int64
+		lineageTag: 8f94fa72-eaad-5fd4-b727-9eb25dabc385
+		sourceColumn: discount_percentage
+
+		annotation SummarizationSetBy = Automatic
+
+	column campaign_name
+		dataType: string
+		lineageTag: d5178654-f0c7-5621-aed4-86b15537a595
+		summarizeBy: none
+		sourceColumn: campaign_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column n_items
+		dataType: int64
+		lineageTag: 65b14785-9316-5adc-addd-891492a23b2b
+		sourceColumn: n_items
+
+		annotation SummarizationSetBy = Automatic
+
+	column n_distinct_items
+		dataType: int64
+		lineageTag: ef431a11-227a-5d2f-8804-02144b6a2de3
+		sourceColumn: n_distinct_items
+
+		annotation SummarizationSetBy = Automatic
+
+	column basket_value
+		dataType: double
+		formatString: '₹#,0.00'
+		lineageTag: 467de21f-4deb-5cd9-b304-a16f5d73129c
+		sourceColumn: basket_value
+
+		annotation SummarizationSetBy = Automatic
+
+	column avg_prep_time
+		dataType: double
+		lineageTag: b6351cd7-b767-50ac-b6dc-40b22f001812
+		sourceColumn: avg_prep_time
+
+		annotation SummarizationSetBy = Automatic
+
+	column max_prep_time
+		dataType: double
+		lineageTag: b553dc61-d19c-5466-95e5-c238198bd39e
+		sourceColumn: max_prep_time
+
+		annotation SummarizationSetBy = Automatic
+
+	column temperature
+		dataType: double
+		lineageTag: 44117225-ec6d-59f6-a802-8057cd03c907
+		sourceColumn: temperature
+
+		annotation SummarizationSetBy = Automatic
+
+	column rainfall
+		dataType: double
+		lineageTag: c23e8348-0acb-5862-ac3d-8e3c23e9b62f
+		sourceColumn: rainfall
+
+		annotation SummarizationSetBy = Automatic
+
+	column humidity
+		dataType: double
+		lineageTag: da6d6946-93d9-5a07-9654-8d15808efb57
+		sourceColumn: humidity
+
+		annotation SummarizationSetBy = Automatic
+
+	column weather_condition
+		dataType: string
+		lineageTag: bfd84ec9-6a8c-53ee-8087-230c1d738881
+		summarizeBy: none
+		sourceColumn: weather_condition
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_hour
+		dataType: int64
+		lineageTag: 114ac17f-49a6-5e05-8b5a-e682f0324a34
+		summarizeBy: none
+		sourceColumn: order_hour
+
+		annotation SummarizationSetBy = Automatic
+
+	column traffic_score
+		dataType: double
+		lineageTag: 694f5212-2134-560d-8bb3-bdb7c0129b28
+		sourceColumn: traffic_score
+
+		annotation SummarizationSetBy = Automatic
+
+	column average_speed
+		dataType: double
+		lineageTag: e809a2c4-e3bc-5541-8fe5-4124e88e4ed6
+		sourceColumn: average_speed
+
+		annotation SummarizationSetBy = Automatic
+
+	column traffic_level
+		dataType: string
+		lineageTag: 55a3fc0f-4e20-5e9f-8ede-ffdf2fe0c062
+		summarizeBy: none
+		sourceColumn: traffic_level
+		sortByColumn: traffic_level_sort
+
+		annotation SummarizationSetBy = Automatic
+
+	column feedback_customer_rating
+		dataType: int64
+		lineageTag: 700c024b-a079-59d5-9d81-7ace5eefca09
+		sourceColumn: feedback_customer_rating
+
+		annotation SummarizationSetBy = Automatic
+
+	column feedback_delivery_rating
+		dataType: int64
+		lineageTag: 679e799e-82c7-54bb-9f80-f36293c24aff
+		sourceColumn: feedback_delivery_rating
+
+		annotation SummarizationSetBy = Automatic
+
+	column feedback_food_rating
+		dataType: int64
+		lineageTag: f3f69e7d-1070-56a2-aa25-84975c0bad56
+		sourceColumn: feedback_food_rating
+
+		annotation SummarizationSetBy = Automatic
+
+	column sentiment
+		dataType: string
+		lineageTag: e73efebd-7d99-55fb-87a9-f50d6fc3f9b6
+		summarizeBy: none
+		sourceColumn: sentiment
+
+		annotation SummarizationSetBy = Automatic
+
+	column has_review
+		dataType: int64
+		lineageTag: c6c44ff8-d1db-55b9-a023-5d986196ef06
+		sourceColumn: has_review
+
+		annotation SummarizationSetBy = Automatic
+
+	column distance_to_city_centre_km
+		dataType: double
+		lineageTag: 60186cd6-a1ce-505f-b347-ccfa62e901e1
+		sourceColumn: distance_to_city_centre_km
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_cross_city
+		dataType: int64
+		lineageTag: 77624f53-8298-584a-ae13-2e53e01a1ce3
+		sourceColumn: is_cross_city
+
+		annotation SummarizationSetBy = Automatic
+
+	column partner_tenure_days
+		dataType: int64
+		lineageTag: e74c6b4d-bab2-596e-a647-ac43a9939278
+		sourceColumn: partner_tenure_days
+
+		annotation SummarizationSetBy = Automatic
+
+	column discount_pct
+		dataType: double
+		lineageTag: 9318fc0a-5149-56b4-b9cf-d2da4562a097
+		sourceColumn: discount_pct
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_minute
+		dataType: int64
+		lineageTag: 47fb84ab-d3e1-597d-9b78-e5b4393b4720
+		summarizeBy: none
+		sourceColumn: order_minute
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_dayofweek
+		dataType: int64
+		lineageTag: f65c6f70-7bb5-5c05-880c-272b17384814
+		summarizeBy: none
+		sourceColumn: order_dayofweek
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_month
+		dataType: int64
+		lineageTag: 34dd3942-7634-56f8-89ff-7dbfce1b34bf
+		summarizeBy: none
+		sourceColumn: order_month
+
+		annotation SummarizationSetBy = Automatic
+
+	column peak_hour
+		dataType: int64
+		lineageTag: 2e539c25-a5ce-56f6-a2a9-af327f8231be
+		sourceColumn: peak_hour
+
+		annotation SummarizationSetBy = Automatic
+
+	column weekend_order
+		dataType: int64
+		lineageTag: ac379533-f26a-5e27-80ed-44f1a8e78fb6
+		sourceColumn: weekend_order
+
+		annotation SummarizationSetBy = Automatic
+
+	column rain_impact
+		dataType: string
+		lineageTag: 2a7c67f3-d9a6-5768-9d7a-c7556f1e640d
+		summarizeBy: none
+		sourceColumn: rain_impact
+		sortByColumn: rain_impact_sort
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_tenure_days
+		dataType: int64
+		lineageTag: 5f7ad0e8-be4b-59c0-a83f-faad2ed9793d
+		sourceColumn: customer_tenure_days
+
+		annotation SummarizationSetBy = Automatic
+
+	column restaurant_order_count
+		dataType: int64
+		lineageTag: 77a6527a-034a-51c3-90d8-9b1eebe84949
+		sourceColumn: restaurant_order_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column restaurant_popularity_rank
+		dataType: int64
+		lineageTag: 1bc84ecf-e460-50ed-a104-5962220f2592
+		sourceColumn: restaurant_popularity_rank
+
+		annotation SummarizationSetBy = Automatic
+
+	column delivery_efficiency
+		dataType: double
+		lineageTag: ee2ca740-baa4-58eb-93f4-4be48147238a
+		sourceColumn: delivery_efficiency
+
+		annotation SummarizationSetBy = Automatic
+
+	column average_rating
+		dataType: double
+		lineageTag: cd45a81e-ce57-5e10-870d-eca7a0e61aca
+		sourceColumn: average_rating
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_peak_and_rain
+		dataType: int64
+		lineageTag: 18b45b7a-19ca-59c1-88ab-9649154c542c
+		sourceColumn: is_peak_and_rain
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_weekend_and_rain
+		dataType: int64
+		lineageTag: db97aa63-ff8e-51ee-b63e-88de7aedbfda
+		sourceColumn: is_weekend_and_rain
+
+		annotation SummarizationSetBy = Automatic
+
+	column coupon_used
+		dataType: int64
+		lineageTag: 836cdf0f-b5a9-538b-9bc4-a88cf47f1a74
+		sourceColumn: coupon_used
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_late
+		dataType: int64
+		lineageTag: d38834d4-3a11-5551-9269-7eb9d6932cd3
+		sourceColumn: is_late
+
+		annotation SummarizationSetBy = Automatic
+
+	column traffic_level_sort
+		dataType: int64
+		isHidden
+		lineageTag: 44ec2fac-fabc-598e-80ca-2bab022996be
+		summarizeBy: none
+		sourceColumn: traffic_level_sort
+
+		annotation SummarizationSetBy = Automatic
+
+	column rain_impact_sort
+		dataType: int64
+		isHidden
+		lineageTag: bc01f339-0912-596d-8885-cfa3461bc071
+		summarizeBy: none
+		sourceColumn: rain_impact_sort
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_orders = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "analytical_base_table.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Removed = Table.RemoveColumns(Promoted, {"review", "city_lat", "city_lon", "tenure_is_negative"}, MissingField.Ignore),
+				    Typed = Table.TransformColumnTypes(Removed, {{"order_id", type text}, {"customer_id", type text}, {"restaurant_id", type text}, {"delivery_partner_id", type text}, {"order_date", type date}, {"order_time", type text}, {"delivery_time_minutes", type number}, {"food_cost", type number}, {"delivery_fee", type number}, {"discount", type number}, {"coupon_code", type text}, {"gst", type number}, {"final_amount", type number}, {"order_status", type text}, {"payment_method", type text}, {"dt_outlier_flag", Int64.Type}, {"customer_name", type text}, {"customer_age", Int64.Type}, {"customer_gender", type text}, {"customer_city", type text}, {"state", type text}, {"membership", type text}, {"registration_date", type date}, {"total_orders", Int64.Type}, {"preferred_cuisine", type text}, {"restaurant_name", type text}, {"restaurant_cuisine", type text}, {"restaurant_city", type text}, {"area", type text}, {"restaurant_rating", type number}, {"average_cost", type number}, {"restaurant_type", type text}, {"latitude", type number}, {"longitude", type number}, {"partner_name", type text}, {"partner_age", Int64.Type}, {"partner_gender", type text}, {"vehicle_type", type text}, {"joining_date", type date}, {"partner_city", type text}, {"partner_rating", type number}, {"completed_deliveries", Int64.Type}, {"partner_avg_delivery_time", type number}, {"discount_percentage", Int64.Type}, {"campaign_name", type text}, {"n_items", Int64.Type}, {"n_distinct_items", Int64.Type}, {"basket_value", type number}, {"avg_prep_time", type number}, {"max_prep_time", type number}, {"temperature", type number}, {"rainfall", type number}, {"humidity", type number}, {"weather_condition", type text}, {"order_hour", Int64.Type}, {"traffic_score", type number}, {"average_speed", type number}, {"traffic_level", type text}, {"feedback_customer_rating", Int64.Type}, {"feedback_delivery_rating", Int64.Type}, {"feedback_food_rating", Int64.Type}, {"sentiment", type text}, {"has_review", Int64.Type}, {"distance_to_city_centre_km", type number}, {"is_cross_city", Int64.Type}, {"partner_tenure_days", Int64.Type}, {"discount_pct", type number}, {"order_minute", Int64.Type}, {"order_dayofweek", Int64.Type}, {"order_month", Int64.Type}, {"peak_hour", Int64.Type}, {"weekend_order", Int64.Type}, {"rain_impact", type text}, {"customer_tenure_days", Int64.Type}, {"restaurant_order_count", Int64.Type}, {"restaurant_popularity_rank", Int64.Type}, {"delivery_efficiency", type number}, {"average_rating", type number}, {"is_peak_and_rain", Int64.Type}, {"is_weekend_and_rain", Int64.Type}, {"coupon_used", Int64.Type}, {"is_late", Int64.Type}}, "en-US"),
+				    WithTrafficSort = Table.AddColumn(Typed, "traffic_level_sort", each if [traffic_level] = "Low" then 1 else if [traffic_level] = "Moderate" then 2 else if [traffic_level] = "High" then 3 else if [traffic_level] = "Severe" then 4 else null, Int64.Type),
+				    WithRainSort = Table.AddColumn(WithTrafficSort, "rain_impact_sort", each if [rain_impact] = "None" then 0 else if [rain_impact] = "Light" then 1 else if [rain_impact] = "Moderate" then 2 else if [rain_impact] = "Heavy" then 3 else null, Int64.Type)
+				in
+				    WithRainSort
+
+	annotation PBI_ResultType = Table
+
